@@ -1,4 +1,4 @@
-export default {
+const config = {
   development: {
     username: 'root',
     password: 'password1',
@@ -21,3 +21,5 @@ export default {
     dialect: 'mysql',
   },
 };
+
+module.exports = config;
