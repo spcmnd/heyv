@@ -10,12 +10,20 @@ export default {
         type: Sequelize.INTEGER,
       },
       title: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       occurence: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
-      lastDoneDateTime: {
+      doneCount: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },
+      dueDate: {
+        allowNull: false,
         type: Sequelize.DATE,
       },
       createdAt: {
