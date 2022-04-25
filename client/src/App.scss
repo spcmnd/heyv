@@ -1,0 +1,10 @@
+@use 'styles/mixins' as m;
+@use 'styles/functions' as f;
+
+.App {
+  padding: f.space(2);
+  
+  h1 {
+    @include m.title-big();
+  }
+}

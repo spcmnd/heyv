@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
+import './App.scss';
 import heyvHttp from './core/http/heyv-http';
 
 function App() {
