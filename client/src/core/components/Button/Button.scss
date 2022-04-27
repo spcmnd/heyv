@@ -1,0 +1,61 @@
+@use 'styles/base/colors' as colors;
+@use 'styles/functions' as functions;
+@use 'styles/mixins' as mixins;
+
+.Button {
+  align-items: center;
+  background: none;
+  border: none;
+  display: flex;
+  padding: functions.space(1) functions.space(2);
+  @include mixins.body-small-semi-bold();
+
+  > * + * {
+    margin-left: functions.space(0.5);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.filled {
+    color: white;
+
+    &.primary {
+      background: colors.$primary;
+      border: 1px solid colors.$primary;
+    }
+
+    &.accent {
+      background: colors.$secondary;
+      border: 1px solid colors.$secondary;
+    }
+  }
+
+  &.outlined {
+    background: none;
+
+    &.primary {
+      border: 1px solid colors.$primary;
+      color: colors.$primary;
+    }
+
+    &.accent {
+      border: 1px solid colors.$secondary;
+      color: colors.$secondary;
+    }
+  }
+
+  &.text {
+    background: none;
+    border: none;
+
+    &.primary {
+      color: colors.$primary;
+    }
+
+    &.accent {
+      color: colors.$secondary;
+    }
+  }
+}

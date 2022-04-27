@@ -1,10 +1,12 @@
-@use './styles/main';
+@use 'styles/base/reset';
+@use 'styles/base/colors' as colors;
 
 * {
   box-sizing: border-box;
 }
 
 body {
+  color: colors.$textCommon;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
 }
