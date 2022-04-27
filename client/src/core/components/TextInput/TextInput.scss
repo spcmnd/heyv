@@ -1,0 +1,15 @@
+@use 'styles/base/colors' as colors;
+@use 'styles/functions' as functions;
+@use 'styles/mixins' as mixins;
+
+.TextInput {
+  border: 1px solid colors.$primary;
+  outline: none;
+  padding: functions.space(1.5) functions.space(1);
+  @include mixins.body-small();
+
+  &::placeholder {
+    color: colors.$textDisabled;
+    opacity: 1;
+  }
+}

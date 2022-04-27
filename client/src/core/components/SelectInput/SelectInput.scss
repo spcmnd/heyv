@@ -1,0 +1,34 @@
+@use 'styles/base/colors' as colors;
+@use 'styles/functions' as functions;
+@use 'styles/mixins' as mixins;
+
+.SelectInput {
+  align-items: center;
+  border: 1px solid colors.$primary;
+  display: flex;
+  outline: none;
+  padding: functions.space(1.5) functions.space(1);
+  @include mixins.body-small();
+
+  &:hover,
+  > *:hover {
+    cursor: pointer;
+  }
+
+  > * + * {
+    margin-left: functions.space(1);
+  }
+
+  input {
+    border: none;
+    padding: 0;
+    outline: none;
+    width: 100%;
+    @include mixins.body-small();
+
+    &::placeholder {
+      color: colors.$textDisabled;
+      opacity: 1;
+    }
+  }
+}
