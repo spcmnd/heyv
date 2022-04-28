@@ -1,7 +1,11 @@
 import { ReactComponent as ChevronSvg } from './chevron.svg';
 
-function ChevronIcon(): JSX.Element {
-  return <ChevronSvg />;
+interface Props {
+  className?: string;
+}
+
+function ChevronIcon({ className }: Props): JSX.Element {
+  return <ChevronSvg className={className} />;
 }
 
 export default ChevronIcon;

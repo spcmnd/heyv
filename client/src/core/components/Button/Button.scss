@@ -1,6 +1,6 @@
-@use 'styles/base/colors' as colors;
-@use 'styles/functions' as functions;
-@use 'styles/mixins' as mixins;
+@use 'src/styles/base/colors' as colors;
+@use 'src/styles/functions' as functions;
+@use 'src/styles/mixins' as mixins;
 
 .Button {
   align-items: center;
