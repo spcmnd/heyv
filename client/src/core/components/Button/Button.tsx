@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import './Button.scss';
 
 type ButtonVariant = 'filled' | 'outlined' | 'text';
-type ButtonColor = 'primary' | 'accent';
+type ButtonColor = 'primary' | 'accent' | 'on-light';
 
 interface Props {
   children: string;

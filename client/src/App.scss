@@ -2,6 +2,7 @@
 @use 'src/styles/functions' as f;
 
 .App {
+  display: inline-block;
   padding: f.space(2);
   
   h1 {

@@ -30,6 +30,12 @@
       background: colors.$secondary;
       border: 1px solid colors.$secondary;
     }
+
+    &.on-light {
+      background: white;
+      border: white;
+      color: colors.$textCommon;
+    }
   }
 
   &.outlined {
@@ -44,6 +50,11 @@
       border: 1px solid colors.$secondary;
       color: colors.$secondary;
     }
+
+    &.on-light {
+      border: 1px solid white;
+      color: white;
+    }
   }
 
   &.text {
@@ -56,6 +67,10 @@
 
     &.accent {
       color: colors.$secondary;
+    }
+
+    &.on-light {
+      color: colors.$textCommon;
     }
   }
 }
