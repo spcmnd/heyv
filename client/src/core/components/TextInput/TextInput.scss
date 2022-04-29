@@ -4,12 +4,21 @@
 
 .TextInput {
   border: 1px solid colors.$primary;
+  min-height: 50px;
   outline: none;
   padding: functions.space(1.5) functions.space(1);
   @include mixins.body-small();
 
   &::placeholder {
-    color: colors.$textDisabled;
-    opacity: 1;
+    opacity: 0.6;
+  }
+
+  &.has-error {
+    border: 1px solid colors.$error;
+    color: colors.$error;
+
+    &::placeholder {
+      opacity: 0.6;
+    }
   }
 }
