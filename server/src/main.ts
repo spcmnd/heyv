@@ -11,7 +11,9 @@ async function bootstrap() {
     origin: configService.get<string>('CORS_ORIGIN'),
   });
   app.setGlobalPrefix('/api/v1');
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
+  );
 
   await app.listen(parseInt(configService.get<string>('PORT')) ?? 8000);
 }
