@@ -9,6 +9,8 @@ services:
       MYSQL_ROOT_PASSWORD: password1
     ports:
       - 3306:3306
+    depends_on:
+      - adminer
 
   adminer:
     image: adminer
@@ -22,8 +24,16 @@ services:
       NODE_ENV: development
       PORT: 8000
       CORS_ORIGIN: http://localhost
+      DB_TYPE: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: password1
+      DB_DATABASE: heyv-db
     ports:
       - 8000:8000
+    depends_on:
+      - db
   
   client:
     build: client/
