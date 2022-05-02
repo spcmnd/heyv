@@ -1,3 +1,4 @@
+import { ToastContainer } from 'react-toastify';
 import './RootLayout.scss';
 
 interface Props {
@@ -9,6 +10,7 @@ function RootLayout({ children }: Props): JSX.Element {
     <div className="RootLayout">
       <h1>Heyv</h1>
       {children}
+      <ToastContainer position="top-right" />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Button from '../../../core/components/Button/Button';
 import SelectInput from '../../../core/components/SelectInput/SelectInput';
 import TextInput from '../../../core/components/TextInput/TextInput';
@@ -42,8 +43,17 @@ function TaskCreateForm(): JSX.Element {
   const submitForm = async (taskCreationDto: TaskCreationDto) => {
     try {
       await heyvHttp.post('/task', taskCreationDto);
+      toast('La tâche a été créée avec succès!', {
+        type: 'success',
+        className: 'heyv-toast-success',
+      });
       navigate('/');
-    } catch (error) {}
+    } catch (error: any) {
+      toast('Une erreur est survenue!', {
+        type: 'error',
+        className: 'heyv-toast-error',
+      });
+    }
   };
 
   return (

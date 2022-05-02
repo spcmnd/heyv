@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 import RootLayout from './core/layouts/RootLayout/RootLayout';
 import DashboardPage from './home/pages/DashboardPage/DashboardPage';

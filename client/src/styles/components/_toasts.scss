@@ -1,0 +1,11 @@
+@use 'src/styles/base/colors' as colors;
+
+.heyv-toast {
+  &-error {
+    background-color: colors.$error;
+  }
+
+  &-success {
+    background-color: colors.$success;
+  }
+}
