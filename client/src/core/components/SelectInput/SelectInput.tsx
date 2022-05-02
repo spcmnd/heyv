@@ -36,10 +36,10 @@ function SelectInput({
     setOpened(!opened);
   };
 
-  const handleOptionClick = (value: string) => {
-    setInputValue(value);
+  const handleOptionClick = (option: SelectInputOption<string>) => {
+    setInputValue(option.label);
     setOpened(false);
-    onValueChange && onValueChange(value);
+    onValueChange && onValueChange(option.value);
   };
 
   useEffect(() => {
@@ -63,7 +63,7 @@ function SelectInput({
             <div
               key={i}
               className="option"
-              onClick={() => handleOptionClick(o.value)}
+              onClick={() => handleOptionClick(o)}
             >
               <p>{o.label}</p>
             </div>

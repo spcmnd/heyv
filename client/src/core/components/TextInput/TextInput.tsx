@@ -18,9 +18,7 @@ function TextInput({
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    if (value) {
-      setInputValue(value);
-    }
+    setInputValue(value ?? '');
   }, [value]);
 
   return (

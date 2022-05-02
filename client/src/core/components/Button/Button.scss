@@ -7,6 +7,7 @@
   background: none;
   border: none;
   display: flex;
+  justify-content: center;
   padding: functions.space(1) functions.space(2);
   @include mixins.body-small-semi-bold();
 

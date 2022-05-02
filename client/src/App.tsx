@@ -1,22 +1,18 @@
-import { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.scss';
-import heyvHttp from './core/http/heyv-http';
+import RootLayout from './core/layouts/RootLayout/RootLayout';
+import DashboardPage from './home/pages/DashboardPage/DashboardPage';
+import TaskCreatePage from './task/pages/TaskCreatePage/TaskCreatePage';
 
 function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    heyvHttp
-      .get('/')
-      .then((res: AxiosResponse): { message: string } => res.data)
-      .then((data: { message: string }): void => setMessage(data.message));
-  }, []);
-
   return (
     <div className="App">
-      <h1>Heyv</h1>
-      <p>{message}</p>
+      <RootLayout>
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/create" element={<TaskCreatePage />} />
+        </Routes>
+      </RootLayout>
     </div>
   );
 }
