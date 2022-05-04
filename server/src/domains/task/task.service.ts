@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { TaskCreationDto } from './task.dto';
 import { Task } from './task.entity';
 
@@ -9,6 +9,13 @@ export class TaskService {
   constructor(
     @InjectRepository(Task) private taskRepository: Repository<Task>,
   ) {}
+
+  public async getLatest(): Promise<Task[]> {
+    return this.taskRepository.find({
+      take: 10,
+      where: { dueDate: LessThan(new Date()) },
+    });
+  }
 
   public create(taskCreationDto: TaskCreationDto): Promise<Task> {
     const task = new Task();
