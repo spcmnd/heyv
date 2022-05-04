@@ -9,6 +9,8 @@ interface Props {
   color?: ButtonColor;
   icon?: JSX.Element;
   variant?: ButtonVariant;
+  disabled?: boolean;
+  [x: string]: any;
 }
 
 function Button({
@@ -16,9 +18,14 @@ function Button({
   color = 'primary',
   icon,
   variant = 'filled',
+  disabled = false,
+  ...x
 }: Props): JSX.Element {
   return (
-    <button className={classNames('Button', color, variant)}>
+    <button
+      className={classNames('Button', color, variant, { disabled })}
+      {...x}
+    >
       {icon ? (
         <>
           {icon} <span>{children}</span>

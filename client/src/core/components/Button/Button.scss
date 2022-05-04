@@ -7,6 +7,7 @@
   background: none;
   border: none;
   display: flex;
+  justify-content: center;
   padding: functions.space(1) functions.space(2);
   @include mixins.body-small-semi-bold();
 
@@ -36,6 +37,12 @@
       border: white;
       color: colors.$textCommon;
     }
+
+    &.disabled {
+      background: colors.$textDisabled;
+      border: colors.$textDisabled;
+      color: white;
+    }
   }
 
   &.outlined {
@@ -55,6 +62,11 @@
       border: 1px solid white;
       color: white;
     }
+
+    &.disabled {
+      border: colors.$textDisabled;
+      color: colors.$textDisabled;
+    }
   }
 
   &.text {
@@ -71,6 +83,10 @@
 
     &.on-light {
       color: colors.$textCommon;
+    }
+
+    &.disabled {
+      color: colors.$textDisabled;
     }
   }
 }
