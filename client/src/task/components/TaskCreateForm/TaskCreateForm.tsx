@@ -1,48 +1,56 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
 import Button from '../../../core/components/Button/Button';
 import SelectInput from '../../../core/components/SelectInput/SelectInput';
 import TextInput from '../../../core/components/TextInput/TextInput';
+import useInput from '../../../core/hooks/useInput';
 import heyvHttp from '../../../core/http/heyv-http';
 import { PeriodicityEnum } from '../../models/periodicity.enum';
 import { TaskCreationDto } from '../../models/task.dto';
 import './TaskCreateForm.scss';
 
 function TaskCreateForm(): JSX.Element {
-  const [title, setTitle] = useState('');
-  const [occurrence, setOccurrence] = useState('');
-  const [periodicity, setPeriodicity] = useState<PeriodicityEnum>(
-    PeriodicityEnum.Daily
-  );
+  const {
+    value: titleValue,
+    touched: titleTouched,
+    onChange: titleOnChange,
+    onTouched: titleOnTouched,
+  } = useInput<string>('');
+  const {
+    value: occurrenceValue,
+    touched: occurrenceTouched,
+    onChange: occurrenceOnChange,
+    onTouched: occurrenceOnTouched,
+  } = useInput<string>('');
+  const { value: periodicityValue, onChange: periodicityOnChange } =
+    useInput<PeriodicityEnum>(PeriodicityEnum.Daily);
   const navigate = useNavigate();
 
   const handleTitleInputChange = (event: InputEvent) => {
     const inputValue = (event?.target as HTMLInputElement)?.value;
-    setTitle(inputValue);
+    titleOnChange(inputValue);
   };
 
   const handleOccurrenceInputChange = (event: InputEvent) => {
     const inputValue = (event?.target as HTMLInputElement)?.value;
-    setOccurrence(inputValue);
+    occurrenceOnChange(inputValue);
   };
 
   const handlePeriodicityInputChange = (value: PeriodicityEnum) => {
-    setPeriodicity(value);
+    periodicityOnChange(value);
   };
 
   const handleSubmitClick = (event: MouseEvent) => {
     event.preventDefault();
     submitForm({
-      title,
-      occurrence: parseInt(occurrence),
-      periodicity,
+      title: titleValue,
+      occurrence: parseInt(occurrenceValue),
+      periodicity: periodicityValue,
     });
   };
 
   const submitForm = async (taskCreationDto: TaskCreationDto) => {
-    if (!title || !occurrence || !periodicity) {
+    if (!titleValue || !occurrenceValue || !periodicityValue) {
       return;
     }
 
@@ -66,8 +74,13 @@ function TaskCreateForm(): JSX.Element {
       <TextInput
         placeholder="Titre de la tâche..."
         onChange={handleTitleInputChange}
-        value={title}
-        hasError={!!title && (title?.length < 8 || title?.length > 64)}
+        value={titleValue}
+        hasError={
+          !!titleValue &&
+          titleTouched &&
+          (titleValue?.length < 8 || titleValue?.length > 64)
+        }
+        onTouchEnd={titleOnTouched}
       />
       <p className="occurrence-question">
         A quelle fréquence cette tâche doit être faite ?
@@ -76,8 +89,13 @@ function TaskCreateForm(): JSX.Element {
       <div className="occurrence">
         <TextInput
           onChange={handleOccurrenceInputChange}
-          value={occurrence}
-          hasError={parseInt(occurrence) < 1 || parseInt(occurrence) > 3}
+          value={occurrenceValue}
+          hasError={
+            !!occurrenceValue &&
+            occurrenceTouched &&
+            (parseInt(occurrenceValue) < 1 || parseInt(occurrenceValue) > 3)
+          }
+          onTouchEnd={occurrenceOnTouched}
         />
         <p>fois par</p>
         <SelectInput
@@ -88,7 +106,7 @@ function TaskCreateForm(): JSX.Element {
             label: key,
             value,
           }))}
-          value={periodicity}
+          value={periodicityValue}
         />
       </div>
       <div className="actions">
@@ -104,7 +122,7 @@ function TaskCreateForm(): JSX.Element {
           variant="filled"
           color="accent"
           type="submit"
-          disabled={!title || !occurrence || !periodicity}
+          disabled={!titleValue || !occurrenceValue || !periodicityValue}
           onClick={handleSubmitClick}
         >
           Ajouter
