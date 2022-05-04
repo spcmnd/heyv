@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThan, Repository } from 'typeorm';
 import { TaskCreationDto } from './task.dto';
@@ -25,6 +25,21 @@ export class TaskService {
     task.dueDate = this.getDueDateByPeriodicity(taskCreationDto.periodicity);
 
     return this.taskRepository.save(task);
+  }
+
+  public async doneTask(taskId: number): Promise<void> {
+    const task = await this.taskRepository.findOne(taskId, {
+      where: { dueDate: LessThan(new Date()) },
+    });
+
+    if (!task) {
+      throw new HttpException('Task not found', 404);
+    }
+
+    const newDueDate = this.getDueDateByPeriodicity(task.periodicity);
+    await this.taskRepository.update(taskId, { dueDate: newDueDate });
+
+    return;
   }
 
   private getDueDateByPeriodicity(periodicity: string): Date {
