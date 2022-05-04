@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import ChevronIcon from '../icons/ChevronIcon/ChevronIcon';
 import './SelectInput.scss';
 
@@ -26,7 +26,9 @@ function SelectInput({
   ...rest
 }: Props): JSX.Element {
   const [opened, setOpened] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(
+    options.find((opt) => opt.value === value)?.label ?? ''
+  );
 
   const handleInputClick = (event: MouseEvent): void => {
     if (!options.length) {
@@ -41,12 +43,6 @@ function SelectInput({
     setOpened(false);
     onValueChange && onValueChange(option.value);
   };
-
-  useEffect(() => {
-    if (value) {
-      setInputValue(value);
-    }
-  }, [value]);
 
   return (
     <div

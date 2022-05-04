@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 import Button from '../../../core/components/Button/Button';
 import SelectInput from '../../../core/components/SelectInput/SelectInput';
 import TextInput from '../../../core/components/TextInput/TextInput';
@@ -41,18 +42,22 @@ function TaskCreateForm(): JSX.Element {
   };
 
   const submitForm = async (taskCreationDto: TaskCreationDto) => {
+    if (!title || !occurrence || !periodicity) {
+      return;
+    }
+
     try {
       await heyvHttp.post('/task', taskCreationDto);
       toast('La tâche a été créée avec succès!', {
         type: 'success',
-        className: 'heyv-toast-success',
       });
       navigate('/');
     } catch (error: any) {
-      toast('Une erreur est survenue!', {
-        type: 'error',
-        className: 'heyv-toast-error',
-      });
+      for (const err of error.response.data.message) {
+        toast('Error: ' + err, {
+          type: 'error',
+        });
+      }
     }
   };
 
@@ -62,13 +67,18 @@ function TaskCreateForm(): JSX.Element {
         placeholder="Titre de la tâche..."
         onChange={handleTitleInputChange}
         value={title}
+        hasError={!!title && (title?.length < 8 || title?.length > 64)}
       />
       <p className="occurrence-question">
         A quelle fréquence cette tâche doit être faite ?
       </p>
       <p className="occurrence-hint">Exemple: 2 fois par semaine.</p>
       <div className="occurrence">
-        <TextInput onChange={handleOccurrenceInputChange} value={occurrence} />
+        <TextInput
+          onChange={handleOccurrenceInputChange}
+          value={occurrence}
+          hasError={parseInt(occurrence) < 1 || parseInt(occurrence) > 3}
+        />
         <p>fois par</p>
         <SelectInput
           onValueChange={(value: string) =>
@@ -78,6 +88,7 @@ function TaskCreateForm(): JSX.Element {
             label: key,
             value,
           }))}
+          value={periodicity}
         />
       </div>
       <div className="actions">
@@ -93,6 +104,7 @@ function TaskCreateForm(): JSX.Element {
           variant="filled"
           color="accent"
           type="submit"
+          disabled={!title || !occurrence || !periodicity}
           onClick={handleSubmitClick}
         >
           Ajouter
