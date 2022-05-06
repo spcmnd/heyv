@@ -5,3 +5,11 @@ export interface TaskCreationDto {
   occurrence: number;
   periodicity: PeriodicityEnum;
 }
+
+export interface TaskDto {
+  id: number;
+  title: string;
+  occurrence: number;
+  periodicity: PeriodicityEnum;
+  dueDate: string;
+}

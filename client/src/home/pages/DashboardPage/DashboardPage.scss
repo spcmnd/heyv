@@ -12,4 +12,8 @@
   > h2 {
     @include mixins.title-small();
   }
+
+  > h3 {
+    @include mixins.body-medium();
+  }
 }
