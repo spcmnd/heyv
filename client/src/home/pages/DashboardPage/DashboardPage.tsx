@@ -1,12 +1,12 @@
-import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Button from '../../../core/components/Button/Button';
 import AddIcon from '../../../core/components/icons/AddIcon/AddIcon';
-import heyvHttp from '../../../core/http/heyv-http';
 import NextTaskCard from '../../../task/components/NextTaskCard/NextTaskCard';
 import TaskList from '../../../task/components/TaskList/TaskList';
 import { TaskDto } from '../../../task/models/task.dto';
+import taskService from '../../../task/services/task-service';
 import './DashboardPage.scss';
 
 function DashboardPage(): JSX.Element {
@@ -19,30 +19,39 @@ function DashboardPage(): JSX.Element {
   }, []);
 
   const loadTasks = () =>
-    heyvHttp
-      .get('/task')
-      .then((response: AxiosResponse<TaskDto[]>): TaskDto[] => response.data)
-      .then((tasks: TaskDto[]): void => {
-        setTasks(tasks);
+    taskService.getTasks().then((tasks: TaskDto[]): void => {
+      setTasks(tasks);
 
-        if (tasks.length) {
-          setNextTask(
-            tasks.reduce((a, b) =>
-              new Date(a.dueDate).getTime() - new Date().getTime() <
-              new Date(b.dueDate).getTime() - new Date().getTime()
-                ? a
-                : b
-            )
-          );
-        }
-      });
+      if (tasks.length) {
+        setNextTask(
+          tasks.reduce((a, b) =>
+            new Date(a.dueDate).getTime() - new Date().getTime() <
+            new Date(b.dueDate).getTime() - new Date().getTime()
+              ? a
+              : b
+          )
+        );
+      }
+    });
+
+  const doneTask = (task: TaskDto) => {
+    taskService
+      .doneTask(task.id)
+      .then(() => {
+        toast('Tâche faite avec succès!', { type: 'success' });
+        loadTasks();
+      })
+      .catch((err: any) =>
+        toast(`Error: ${err.data.message[0]}`, { type: 'error' })
+      );
+  };
 
   const getNextTask = (): JSX.Element => {
     if (!nextTask) {
       return <p>Il n'y a pas de tâches à faire.</p>;
     }
 
-    return <NextTaskCard task={nextTask} onDoneTask={loadTasks} />;
+    return <NextTaskCard task={nextTask} onDoneTask={doneTask} />;
   };
 
   const getOtherTasks = (): JSX.Element => {
@@ -50,7 +59,7 @@ function DashboardPage(): JSX.Element {
       .filter((t) => t.id !== nextTask?.id)
       .sort((a, b) => (new Date(a.dueDate) < new Date(b.dueDate) ? -1 : 1));
 
-    return <TaskList tasks={otherTasks} onDoneTask={loadTasks} />;
+    return <TaskList tasks={otherTasks} onDoneTask={doneTask} />;
   };
 
   return (

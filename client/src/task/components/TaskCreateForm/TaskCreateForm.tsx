@@ -4,9 +4,9 @@ import Button from '../../../core/components/Button/Button';
 import SelectInput from '../../../core/components/SelectInput/SelectInput';
 import TextInput from '../../../core/components/TextInput/TextInput';
 import useInput from '../../../core/hooks/useInput';
-import heyvHttp from '../../../core/http/heyv-http';
 import { PeriodicityEnum } from '../../models/periodicity.enum';
 import { TaskCreationDto } from '../../models/task.dto';
+import taskService from '../../services/task-service';
 import './TaskCreateForm.scss';
 
 function TaskCreateForm(): JSX.Element {
@@ -55,7 +55,7 @@ function TaskCreateForm(): JSX.Element {
     }
 
     try {
-      await heyvHttp.post('/task', taskCreationDto);
+      await taskService.createTask(taskCreationDto);
       toast('La tâche a été créée avec succès!', {
         type: 'success',
       });
