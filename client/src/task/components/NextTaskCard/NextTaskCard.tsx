@@ -3,6 +3,7 @@ import Button from '../../../core/components/Button/Button';
 import Card from '../../../core/components/Card/Card';
 import MoreIcon from '../../../core/components/icons/MoreIcon/MoreIcon';
 import SuccessIcon from '../../../core/components/icons/SuccessIcon/SuccessIcon';
+import getDayDelay from '../../../core/helpers/get-day-delay';
 import heyvHttp from '../../../core/http/heyv-http';
 import { TaskDto } from '../../models/task.dto';
 import './NextTaskCard.scss';
@@ -14,9 +15,7 @@ interface Props {
 
 function NextTaskCard({ task, onDoneTask }: Props): JSX.Element {
   const dueDate: Date = new Date(task.dueDate);
-  const dayDelay: number = Math.round(
-    (new Date().getTime() - dueDate.getTime()) / (1000 * 3600 * 24)
-  );
+  const dayDelay: number = getDayDelay(dueDate);
 
   const doneTask = (task: TaskDto): void => {
     heyvHttp

@@ -1,7 +1,11 @@
 import { ReactComponent as SuccessSvg } from './success.svg';
 
-function SuccessIcon(): JSX.Element {
-  return <SuccessSvg />;
+interface Props {
+  onClick?: () => void;
+}
+
+function SuccessIcon({ onClick }: Props): JSX.Element {
+  return <SuccessSvg onClick={onClick} />;
 }
 
 export default SuccessIcon;

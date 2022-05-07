@@ -13,7 +13,15 @@
     @include mixins.title-small();
   }
 
-  > h3 {
+  .next-task,
+  .other-tasks {
+    > h3 {
+      margin-bottom: functions.space(2);
+      @include mixins.body-medium();
+    }
+  }
+
+  > .no-tasks {
     @include mixins.body-medium();
   }
 }
