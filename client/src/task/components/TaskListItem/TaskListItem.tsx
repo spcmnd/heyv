@@ -1,16 +1,16 @@
 import MoreIcon from '../../../core/components/icons/MoreIcon/MoreIcon';
 import SuccessIcon from '../../../core/components/icons/SuccessIcon/SuccessIcon';
 import getDayDelay from '../../../core/helpers/get-day-delay';
-import { TaskDto } from '../../models/task.dto';
+import { Task } from '../../models/task';
 import './TaskListItem.scss';
 
 interface Props {
-  task: TaskDto;
-  onDoneTaskClick: (task: TaskDto) => void;
+  task: Task;
+  onDoneTaskClick: (task: Task) => void;
 }
 
 function TaskListItem({ task, onDoneTaskClick }: Props): JSX.Element {
-  const dayDelay = getDayDelay(new Date(task.dueDate));
+  const dayDelay = getDayDelay(task.dueDate!);
 
   return (
     <li className="TaskListItem">

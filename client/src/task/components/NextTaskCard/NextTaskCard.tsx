@@ -3,16 +3,16 @@ import Card from '../../../core/components/Card/Card';
 import MoreIcon from '../../../core/components/icons/MoreIcon/MoreIcon';
 import SuccessIcon from '../../../core/components/icons/SuccessIcon/SuccessIcon';
 import getDayDelay from '../../../core/helpers/get-day-delay';
-import { TaskDto } from '../../models/task.dto';
+import { Task } from '../../models/task';
 import './NextTaskCard.scss';
 
 interface Props {
-  task: TaskDto;
-  onDoneTask?: (task: TaskDto) => void;
+  task: Task;
+  onDoneTask?: (task: Task) => void;
 }
 
 function NextTaskCard({ task, onDoneTask }: Props): JSX.Element {
-  const dueDate: Date = new Date(task.dueDate);
+  const dueDate: Date = task.dueDate!;
   const dayDelay: number = getDayDelay(dueDate);
 
   return (

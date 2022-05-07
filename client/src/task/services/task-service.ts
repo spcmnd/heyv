@@ -1,17 +1,34 @@
 import { AxiosResponse } from 'axios';
 import heyvHttp from '../../core/http/heyv-http';
+import { Task } from '../models/task';
 import { TaskCreationDto, TaskDto } from '../models/task.dto';
 
 const taskApiUrl = '/task';
 
-function getTasks(): Promise<TaskDto[]> {
-  return heyvHttp.get<TaskDto[]>(taskApiUrl).then((response) => response.data);
+function getTasks(): Promise<Task[]> {
+  return heyvHttp
+    .get<TaskDto[]>(taskApiUrl)
+    .then((response) => response.data)
+    .then((taskDtos: TaskDto[]) =>
+      taskDtos.map((t) => {
+        const task = new Task();
+        task.fromDto(t);
+
+        return task;
+      })
+    );
 }
 
-function createTask(task: TaskCreationDto): Promise<TaskDto> {
+function createTask(task: TaskCreationDto): Promise<Task> {
   return heyvHttp
     .post<TaskCreationDto, AxiosResponse<TaskDto, any>>(taskApiUrl, task)
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .then((taskDto: TaskDto) => {
+      const task = new Task();
+      task.fromDto(taskDto);
+
+      return task;
+    });
 }
 
 function doneTask(id: number): Promise<unknown> {

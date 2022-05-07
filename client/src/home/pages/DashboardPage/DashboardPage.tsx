@@ -5,28 +5,28 @@ import Button from '../../../core/components/Button/Button';
 import AddIcon from '../../../core/components/icons/AddIcon/AddIcon';
 import NextTaskCard from '../../../task/components/NextTaskCard/NextTaskCard';
 import TaskList from '../../../task/components/TaskList/TaskList';
-import { TaskDto } from '../../../task/models/task.dto';
+import { Task } from '../../../task/models/task';
 import taskService from '../../../task/services/task-service';
 import './DashboardPage.scss';
 
 function DashboardPage(): JSX.Element {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState<TaskDto[]>([]);
-  const [nextTask, setNextTask] = useState<TaskDto>();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [nextTask, setNextTask] = useState<Task>();
 
   useEffect(() => {
     loadTasks();
   }, []);
 
   const loadTasks = () =>
-    taskService.getTasks().then((tasks: TaskDto[]): void => {
+    taskService.getTasks().then((tasks: Task[]): void => {
       setTasks(tasks);
 
       if (tasks.length) {
         setNextTask(
           tasks.reduce((a, b) =>
-            new Date(a.dueDate).getTime() - new Date().getTime() <
-            new Date(b.dueDate).getTime() - new Date().getTime()
+            a.dueDate!.getTime() - new Date().getTime() <
+            b.dueDate!.getTime() - new Date().getTime()
               ? a
               : b
           )
@@ -34,9 +34,9 @@ function DashboardPage(): JSX.Element {
       }
     });
 
-  const doneTask = (task: TaskDto) => {
+  const doneTask = (task: Task) => {
     taskService
-      .doneTask(task.id)
+      .doneTask(task.id!)
       .then(() => {
         toast('Tâche faite avec succès!', { type: 'success' });
         loadTasks();
@@ -57,7 +57,7 @@ function DashboardPage(): JSX.Element {
   const getOtherTasks = (): JSX.Element => {
     const otherTasks = tasks
       .filter((t) => t.id !== nextTask?.id)
-      .sort((a, b) => (new Date(a.dueDate) < new Date(b.dueDate) ? -1 : 1));
+      .sort((a, b) => (a.dueDate! < b.dueDate! ? -1 : 1));
 
     return <TaskList tasks={otherTasks} onDoneTask={doneTask} />;
   };

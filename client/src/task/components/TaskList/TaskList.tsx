@@ -1,10 +1,10 @@
-import { TaskDto } from '../../models/task.dto';
+import { Task } from '../../models/task';
 import TaskListItem from '../TaskListItem/TaskListItem';
 import './TaskList.scss';
 
 interface Props {
-  tasks: TaskDto[];
-  onDoneTask: (task: TaskDto) => void;
+  tasks: Task[];
+  onDoneTask: (task: Task) => void;
 }
 
 function TaskList({ tasks, onDoneTask }: Props): JSX.Element {
