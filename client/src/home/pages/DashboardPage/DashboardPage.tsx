@@ -1,56 +1,65 @@
-import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Button from '../../../core/components/Button/Button';
 import AddIcon from '../../../core/components/icons/AddIcon/AddIcon';
-import heyvHttp from '../../../core/http/heyv-http';
 import NextTaskCard from '../../../task/components/NextTaskCard/NextTaskCard';
 import TaskList from '../../../task/components/TaskList/TaskList';
-import { TaskDto } from '../../../task/models/task.dto';
+import { Task } from '../../../task/models/task';
+import taskService from '../../../task/services/task-service';
 import './DashboardPage.scss';
 
 function DashboardPage(): JSX.Element {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState<TaskDto[]>([]);
-  const [nextTask, setNextTask] = useState<TaskDto>();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [nextTask, setNextTask] = useState<Task>();
 
   useEffect(() => {
     loadTasks();
   }, []);
 
   const loadTasks = () =>
-    heyvHttp
-      .get('/task')
-      .then((response: AxiosResponse<TaskDto[]>): TaskDto[] => response.data)
-      .then((tasks: TaskDto[]): void => {
-        setTasks(tasks);
+    taskService.getTasks().then((tasks: Task[]): void => {
+      setTasks(tasks);
 
-        if (tasks.length) {
-          setNextTask(
-            tasks.reduce((a, b) =>
-              new Date(a.dueDate).getTime() - new Date().getTime() <
-              new Date(b.dueDate).getTime() - new Date().getTime()
-                ? a
-                : b
-            )
-          );
-        }
-      });
+      if (tasks.length) {
+        setNextTask(
+          tasks.reduce((a, b) =>
+            a.dueDate!.getTime() - new Date().getTime() <
+            b.dueDate!.getTime() - new Date().getTime()
+              ? a
+              : b
+          )
+        );
+      }
+    });
+
+  const doneTask = (task: Task) => {
+    taskService
+      .doneTask(task.id!)
+      .then(() => {
+        toast('Tâche faite avec succès!', { type: 'success' });
+        loadTasks();
+      })
+      .catch((err: any) =>
+        toast(`Error: ${err.data.message[0]}`, { type: 'error' })
+      );
+  };
 
   const getNextTask = (): JSX.Element => {
     if (!nextTask) {
       return <p>Il n'y a pas de tâches à faire.</p>;
     }
 
-    return <NextTaskCard task={nextTask} onDoneTask={loadTasks} />;
+    return <NextTaskCard task={nextTask} onDoneTask={doneTask} />;
   };
 
   const getOtherTasks = (): JSX.Element => {
     const otherTasks = tasks
       .filter((t) => t.id !== nextTask?.id)
-      .sort((a, b) => (new Date(a.dueDate) < new Date(b.dueDate) ? -1 : 1));
+      .sort((a, b) => (a.dueDate! < b.dueDate! ? -1 : 1));
 
-    return <TaskList tasks={otherTasks} onDoneTask={loadTasks} />;
+    return <TaskList tasks={otherTasks} onDoneTask={doneTask} />;
   };
 
   return (
