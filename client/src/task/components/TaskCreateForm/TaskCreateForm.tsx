@@ -4,7 +4,10 @@ import Button from '../../../core/components/Button/Button';
 import SelectInput from '../../../core/components/SelectInput/SelectInput';
 import TextInput from '../../../core/components/TextInput/TextInput';
 import useInput from '../../../core/hooks/useInput';
-import { PeriodicityEnum } from '../../models/periodicity.enum';
+import {
+  frenchPeriodicityDictionnary,
+  PeriodicityEnum,
+} from '../../models/periodicity.enum';
 import { TaskCreationDto } from '../../models/task.dto';
 import taskService from '../../services/task-service';
 import './TaskCreateForm.scss';
@@ -102,8 +105,8 @@ function TaskCreateForm(): JSX.Element {
           onValueChange={(value: string) =>
             handlePeriodicityInputChange(value as PeriodicityEnum)
           }
-          options={Object.entries(PeriodicityEnum).map(([key, value]) => ({
-            label: key,
+          options={Object.values(PeriodicityEnum).map((value) => ({
+            label: frenchPeriodicityDictionnary[value as PeriodicityEnum],
             value,
           }))}
           value={periodicityValue}

@@ -22,7 +22,13 @@ function NextTaskCard({ task, onDoneTask }: Props): JSX.Element {
         <MoreIcon />
       </div>
       <p className="delayed">
-        Dépassée depuis {dayDelay} jour{dayDelay > 1 ? 's' : ''}
+        {dayDelay < 1 ? (
+          'A faire aujourdhui!'
+        ) : (
+          <>
+            Dépassée depuis {dayDelay} jour{dayDelay > 1 ? 's' : ''}
+          </>
+        )}
       </p>
       <div className="footer">
         <p className="due-date">{dueDate.toLocaleDateString()}</p>
