@@ -13,3 +13,9 @@ export interface TaskDto {
   periodicity: PeriodicityEnum;
   dueDate: string;
 }
+
+export interface TaskUpdateDto {
+  title: string;
+  occurrence: number;
+  periodicity: PeriodicityEnum;
+}

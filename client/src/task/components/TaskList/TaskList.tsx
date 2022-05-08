@@ -5,9 +5,10 @@ import './TaskList.scss';
 interface Props {
   tasks: Task[];
   onDoneTask: (task: Task) => void;
+  onDeleteTask: () => void;
 }
 
-function TaskList({ tasks, onDoneTask }: Props): JSX.Element {
+function TaskList({ tasks, onDoneTask, onDeleteTask }: Props): JSX.Element {
   return (
     <ul className="TaskList">
       {!!tasks.length &&
@@ -16,6 +17,7 @@ function TaskList({ tasks, onDoneTask }: Props): JSX.Element {
             key={task.id}
             task={task}
             onDoneTaskClick={() => onDoneTask && onDoneTask(task)}
+            onDeleteTaskClick={onDeleteTask}
           />
         ))}
     </ul>

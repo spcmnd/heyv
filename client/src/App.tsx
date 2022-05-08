@@ -4,6 +4,7 @@ import './App.scss';
 import RootLayout from './core/layouts/RootLayout/RootLayout';
 import DashboardPage from './home/pages/DashboardPage/DashboardPage';
 import TaskCreatePage from './task/pages/TaskCreatePage/TaskCreatePage';
+import TaskUpdatePage from './task/pages/TaskUpdatePage/TaskUpdatePage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/create" element={<TaskCreatePage />} />
+          <Route path="/:id/edit" element={<TaskUpdatePage />} />
         </Routes>
       </RootLayout>
     </div>

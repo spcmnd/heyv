@@ -1,3 +1,4 @@
+@use 'src/styles/base/colors' as colors;
 @use 'src/styles/functions' as functions;
 @use 'src/styles/mixins' as mixins;
 
@@ -25,5 +26,9 @@
 
   .due-date {
     @include mixins.body-caption-semi-bold();
+  }
+
+  .MoreIcon:hover {
+    cursor: pointer;
   }
 }

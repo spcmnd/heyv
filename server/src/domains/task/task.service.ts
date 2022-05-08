@@ -71,6 +71,10 @@ export class TaskService {
     return;
   }
 
+  public getOne(id: number): Promise<Task> {
+    return this.taskRepository.findOne(id);
+  }
+
   private getDueDateByPeriodicity(periodicity: string): Date {
     const date = new Date();
     date.setDate(date.getDate() + this.getDaysToAdd(periodicity));

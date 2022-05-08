@@ -8,25 +8,32 @@ import {
   frenchPeriodicityDictionnary,
   PeriodicityEnum,
 } from '../../models/periodicity.enum';
-import { TaskCreationDto } from '../../models/task.dto';
+import { Task } from '../../models/task';
+import { TaskCreationDto, TaskUpdateDto } from '../../models/task.dto';
 import taskService from '../../services/task-service';
-import './TaskCreateForm.scss';
+import './TaskForm.scss';
 
-function TaskCreateForm(): JSX.Element {
+interface Props {
+  existingTask?: Task;
+}
+
+function TaskForm({ existingTask }: Props): JSX.Element {
   const {
     value: titleValue,
     touched: titleTouched,
     onChange: titleOnChange,
     onTouched: titleOnTouched,
-  } = useInput<string>('');
+  } = useInput<string>(existingTask?.title ?? '');
   const {
     value: occurrenceValue,
     touched: occurrenceTouched,
     onChange: occurrenceOnChange,
     onTouched: occurrenceOnTouched,
-  } = useInput<string>('');
+  } = useInput<string>(existingTask?.occurence?.toString() ?? '');
   const { value: periodicityValue, onChange: periodicityOnChange } =
-    useInput<PeriodicityEnum>(PeriodicityEnum.Daily);
+    useInput<PeriodicityEnum>(
+      existingTask?.periodicity ?? PeriodicityEnum.Daily
+    );
   const navigate = useNavigate();
 
   const handleTitleInputChange = (event: InputEvent) => {
@@ -52,16 +59,25 @@ function TaskCreateForm(): JSX.Element {
     });
   };
 
-  const submitForm = async (taskCreationDto: TaskCreationDto) => {
+  const submitForm = async (
+    taskRequestDto: TaskCreationDto | TaskUpdateDto
+  ) => {
     if (!titleValue || !occurrenceValue || !periodicityValue) {
       return;
     }
 
     try {
-      await taskService.createTask(taskCreationDto);
-      toast('La tâche a été créée avec succès!', {
-        type: 'success',
-      });
+      if (existingTask) {
+        await taskService.updateTask(existingTask.id!, taskRequestDto);
+        toast('La tâche a été modifiée avec succès!', {
+          type: 'success',
+        });
+      } else {
+        await taskService.createTask(taskRequestDto);
+        toast('La tâche a été créée avec succès!', {
+          type: 'success',
+        });
+      }
       navigate('/');
     } catch (error: any) {
       for (const err of error.response.data.message) {
@@ -128,11 +144,11 @@ function TaskCreateForm(): JSX.Element {
           disabled={!titleValue || !occurrenceValue || !periodicityValue}
           onClick={handleSubmitClick}
         >
-          Ajouter
+          {existingTask ? 'Modifier' : 'Ajouter'}
         </Button>
       </div>
     </form>
   );
 }
 
-export default TaskCreateForm;
+export default TaskForm;
