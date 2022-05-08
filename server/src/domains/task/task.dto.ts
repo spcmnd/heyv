@@ -1,6 +1,7 @@
 import {
   IsEnum,
   IsNotEmpty,
+  IsNumberString,
   Max,
   MaxLength,
   Min,
@@ -30,4 +31,25 @@ export class TaskCreationDto {
   @IsNotEmpty()
   @IsEnum(TaskPeriodicity)
   periodicity: TaskPeriodicity;
+}
+
+export class TaskUpdateDto {
+  @IsNotEmpty()
+  @MaxLength(64)
+  @MinLength(8)
+  title: string;
+
+  @IsNotEmpty()
+  @Min(1)
+  @Max(3)
+  occurrence: number;
+
+  @IsNotEmpty()
+  @IsEnum(TaskPeriodicity)
+  periodicity: TaskPeriodicity;
+}
+
+export class TaskIdParams {
+  @IsNumberString()
+  id: number;
 }
