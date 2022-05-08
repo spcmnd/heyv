@@ -1,0 +1,15 @@
+@use 'src/styles/functions' as functions;
+@use 'src/styles/mixins' as mixins;
+
+.TaskUpdatePage {
+  display: flex;
+  flex-direction: column;
+
+  > * + * {
+    margin-top: functions.space(4);
+  }
+
+  > h2 {
+    @include mixins.title-small();
+  }
+}

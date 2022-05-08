@@ -57,6 +57,13 @@ export class TaskController {
     return updatedTask.toDto();
   }
 
+  @Get('/:id')
+  public async getOneTask(@Param() params: TaskIdParams): Promise<TaskDto> {
+    const task = await this.taskService.getOne(params.id);
+
+    return task.toDto();
+  }
+
   @Delete('/:id')
   @HttpCode(204)
   public async deleteTask(@Param() params: TaskIdParams): Promise<void> {

@@ -51,7 +51,13 @@ function DashboardPage(): JSX.Element {
       return <p>Il n'y a pas de tâches à faire.</p>;
     }
 
-    return <NextTaskCard task={nextTask} onDoneTask={doneTask} />;
+    return (
+      <NextTaskCard
+        task={nextTask}
+        onDoneTask={doneTask}
+        onDeleteTask={loadTasks}
+      />
+    );
   };
 
   const getOtherTasks = (): JSX.Element => {
@@ -59,7 +65,13 @@ function DashboardPage(): JSX.Element {
       .filter((t) => t.id !== nextTask?.id)
       .sort((a, b) => (a.dueDate! < b.dueDate! ? -1 : 1));
 
-    return <TaskList tasks={otherTasks} onDoneTask={doneTask} />;
+    return (
+      <TaskList
+        tasks={otherTasks}
+        onDoneTask={doneTask}
+        onDeleteTask={loadTasks}
+      />
+    );
   };
 
   return (
