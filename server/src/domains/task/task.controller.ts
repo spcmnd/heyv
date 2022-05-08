@@ -1,5 +1,19 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
-import { TaskCreationDto, TaskDto } from './task.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import {
+  TaskCreationDto,
+  TaskDto,
+  TaskIdParams,
+  TaskUpdateDto,
+} from './task.dto';
 import { TaskService } from './task.service';
 
 @Controller('task')
@@ -24,8 +38,29 @@ export class TaskController {
 
   @Post('/:id/done')
   @HttpCode(204)
-  public async postDoneTaek(@Param('id') id: number): Promise<void> {
-    await this.taskService.doneTask(id);
+  public async postDoneTask(@Param() params: TaskIdParams): Promise<void> {
+    await this.taskService.doneTask(params.id);
+
+    return;
+  }
+
+  @Put('/:id')
+  public async updateTask(
+    @Param() params: TaskIdParams,
+    @Body() taskUpdateDto: TaskUpdateDto,
+  ): Promise<TaskDto> {
+    const updatedTask = await this.taskService.modifyTask(
+      params.id,
+      taskUpdateDto,
+    );
+
+    return updatedTask.toDto();
+  }
+
+  @Delete('/:id')
+  @HttpCode(204)
+  public async deleteTask(@Param() params: TaskIdParams): Promise<void> {
+    await this.taskService.deleteTask(params.id);
 
     return;
   }

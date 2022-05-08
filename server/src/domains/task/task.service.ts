@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThan, Repository } from 'typeorm';
-import { TaskCreationDto } from './task.dto';
+import { TaskCreationDto, TaskUpdateDto } from './task.dto';
 import { Task } from './task.entity';
 
 @Injectable()
@@ -38,6 +38,35 @@ export class TaskService {
 
     const newDueDate = this.getDueDateByPeriodicity(task.periodicity);
     await this.taskRepository.update(taskId, { dueDate: newDueDate });
+
+    return;
+  }
+
+  public async modifyTask(
+    id: number,
+    taskUpdateDto: TaskUpdateDto,
+  ): Promise<Task> {
+    const task = await this.taskRepository.findOne(id);
+
+    if (!task) {
+      throw new HttpException('Task not found', 404);
+    }
+
+    task.title = taskUpdateDto.title;
+    task.occurrence = taskUpdateDto.occurrence;
+    task.periodicity = taskUpdateDto.periodicity;
+
+    return this.taskRepository.save(task);
+  }
+
+  public async deleteTask(id: number): Promise<void> {
+    const task = await this.taskRepository.findOne(id);
+
+    if (!task) {
+      throw new HttpException('Task not found', 404);
+    }
+
+    await this.taskRepository.delete({ id: task.id });
 
     return;
   }
