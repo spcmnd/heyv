@@ -1,16 +1,15 @@
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Button from '../../../core/components/Button/Button';
 import SelectInput from '../../../core/components/SelectInput/SelectInput';
 import TextInput from '../../../core/components/TextInput/TextInput';
 import useInput from '../../../core/hooks/useInput';
+import useTask from '../../context/TaskProvider';
 import {
   frenchPeriodicityDictionnary,
   PeriodicityEnum,
 } from '../../models/periodicity.enum';
 import { Task } from '../../models/task';
 import { TaskCreationDto, TaskUpdateDto } from '../../models/task.dto';
-import taskService from '../../services/task-service';
 import './TaskForm.scss';
 
 interface Props {
@@ -35,6 +34,7 @@ function TaskForm({ existingTask }: Props): JSX.Element {
       existingTask?.periodicity ?? PeriodicityEnum.Daily
     );
   const navigate = useNavigate();
+  const { createTask, updateTask } = useTask();
 
   const handleTitleInputChange = (event: InputEvent) => {
     const inputValue = (event?.target as HTMLInputElement)?.value;
@@ -66,25 +66,10 @@ function TaskForm({ existingTask }: Props): JSX.Element {
       return;
     }
 
-    try {
-      if (existingTask) {
-        await taskService.updateTask(existingTask.id!, taskRequestDto);
-        toast('La tâche a été modifiée avec succès!', {
-          type: 'success',
-        });
-      } else {
-        await taskService.createTask(taskRequestDto);
-        toast('La tâche a été créée avec succès!', {
-          type: 'success',
-        });
-      }
-      navigate('/');
-    } catch (error: any) {
-      for (const err of error.response.data.message) {
-        toast('Error: ' + err, {
-          type: 'error',
-        });
-      }
+    if (existingTask) {
+      await updateTask(existingTask.id!, taskRequestDto);
+    } else {
+      await createTask(taskRequestDto);
     }
   };
 

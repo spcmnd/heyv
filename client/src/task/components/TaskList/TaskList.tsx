@@ -4,22 +4,13 @@ import './TaskList.scss';
 
 interface Props {
   tasks: Task[];
-  onDoneTask: (task: Task) => void;
-  onDeleteTask: () => void;
 }
 
-function TaskList({ tasks, onDoneTask, onDeleteTask }: Props): JSX.Element {
+function TaskList({ tasks }: Props): JSX.Element {
   return (
     <ul className="TaskList">
       {!!tasks.length &&
-        tasks.map((task) => (
-          <TaskListItem
-            key={task.id}
-            task={task}
-            onDoneTaskClick={() => onDoneTask && onDoneTask(task)}
-            onDeleteTaskClick={onDeleteTask}
-          />
-        ))}
+        tasks.map((task) => <TaskListItem key={task.id} task={task} />)}
     </ul>
   );
 }

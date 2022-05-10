@@ -1,78 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Button from '../../../core/components/Button/Button';
 import AddIcon from '../../../core/components/icons/AddIcon/AddIcon';
 import NextTaskCard from '../../../task/components/NextTaskCard/NextTaskCard';
 import TaskList from '../../../task/components/TaskList/TaskList';
-import { Task } from '../../../task/models/task';
-import taskService from '../../../task/services/task-service';
+import useTask from '../../../task/context/TaskProvider';
 import './DashboardPage.scss';
 
 function DashboardPage(): JSX.Element {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [nextTask, setNextTask] = useState<Task>();
+  const { nextTask, tasks, getTasks } = useTask();
 
   useEffect(() => {
-    loadTasks();
-  }, []);
-
-  const loadTasks = () =>
-    taskService.getTasks().then((tasks: Task[]): void => {
-      setTasks(tasks);
-
-      if (tasks.length) {
-        setNextTask(
-          tasks.reduce((a, b) =>
-            a.dueDate!.getTime() - new Date().getTime() <
-            b.dueDate!.getTime() - new Date().getTime()
-              ? a
-              : b
-          )
-        );
-      }
-    });
-
-  const doneTask = (task: Task) => {
-    taskService
-      .doneTask(task.id!)
-      .then(() => {
-        toast('Tâche faite avec succès!', { type: 'success' });
-        loadTasks();
-      })
-      .catch((err: any) =>
-        toast(`Error: ${err.data.message[0]}`, { type: 'error' })
-      );
-  };
-
-  const getNextTask = (): JSX.Element => {
-    if (!nextTask) {
-      return <p>Il n'y a pas de tâches à faire.</p>;
-    }
-
-    return (
-      <NextTaskCard
-        task={nextTask}
-        onDoneTask={doneTask}
-        onDeleteTask={loadTasks}
-      />
-    );
-  };
-
-  const getOtherTasks = (): JSX.Element => {
-    const otherTasks = tasks
-      .filter((t) => t.id !== nextTask?.id)
-      .sort((a, b) => (a.dueDate! < b.dueDate! ? -1 : 1));
-
-    return (
-      <TaskList
-        tasks={otherTasks}
-        onDoneTask={doneTask}
-        onDeleteTask={loadTasks}
-      />
-    );
-  };
+    getTasks();
+  }, [getTasks]);
 
   return (
     <div className="DashboardPage">
@@ -89,15 +30,15 @@ function DashboardPage(): JSX.Element {
       >
         Ajouter nouvelle tâche
       </Button>
-      {!!tasks.length ? (
+      {!!tasks.length || nextTask ? (
         <>
           <div className="next-task">
             <h3>Prochaine tâche</h3>
-            {getNextTask()}
+            {nextTask && <NextTaskCard task={nextTask} />}
           </div>
           <div className="other-tasks">
             <h3>Tâches en attente</h3>
-            {getOtherTasks()}
+            <TaskList tasks={tasks} />
           </div>
         </>
       ) : (
