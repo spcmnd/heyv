@@ -1,32 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import TaskForm from '../../components/TaskForm/TaskForm';
-import { Task } from '../../models/task';
-import taskService from '../../services/task-service';
+import useTask from '../../context/TaskProvider';
 import './TaskUpdatePage.scss';
 
 function TaskUpdatePage(): JSX.Element {
   const { id } = useParams();
-  const [task, setTask] = useState<Task>();
-  const navigate = useNavigate();
+  const { currentTask, getTask } = useTask();
 
   useEffect(() => {
     if (id) {
-      taskService
-        .getOneTask(parseInt(id))
-        .then((task: Task) => setTask(task))
-        .catch(() => {
-          toast('La tâche ne peut pas être trouvée', { type: 'error' });
-          navigate('/');
-        });
+      getTask(parseInt(id));
     }
-  }, [id, navigate]);
+  }, [getTask, id]);
 
   return (
     <div className="TaskUpdatePage">
       <h2>Quelle modification voulez-vous apporter à cette tâche ?</h2>
-      {task && <TaskForm existingTask={task} />}
+      {currentTask && <TaskForm existingTask={currentTask} />}
     </div>
   );
 }

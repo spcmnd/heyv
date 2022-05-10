@@ -1,36 +1,34 @@
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Button from '../../../core/components/Button/Button';
 import Card from '../../../core/components/Card/Card';
 import SuccessIcon from '../../../core/components/icons/SuccessIcon/SuccessIcon';
 import getDayDelay from '../../../core/helpers/get-day-delay';
+import useTask from '../../context/TaskProvider';
 import { Task } from '../../models/task';
-import taskService from '../../services/task-service';
 import TaskMoreMenu from '../TaskMoreMenu/TaskMoreMenu';
 import './NextTaskCard.scss';
 
 interface Props {
   task: Task;
-  onDoneTask?: (task: Task) => void;
-  onDeleteTask?: () => void;
 }
 
-function NextTaskCard({ task, onDoneTask }: Props): JSX.Element {
-  const dueDate: Date = task.dueDate!;
-  const dayDelay: number = getDayDelay(dueDate);
+function NextTaskCard({ task }: Props): JSX.Element {
+  const dayDelay: number = getDayDelay(task.dueDate!);
   const navigate = useNavigate();
+  const { deleteTask, doneTask, getTasks } = useTask();
 
   const onDeleteTask = () => {
-    taskService
-      .deleteTask(task.id!)
-      .then(() => {
-        navigate('/');
-        onDeleteTask && onDeleteTask();
-      })
-      .catch(() => {
-        toast("La tâche n'a pas pu être supprimée", { type: 'error' });
-        navigate('/');
-      });
+    deleteTask(task.id!).then(() => {
+      getTasks();
+      navigate('/');
+    });
+  };
+
+  const onDoneTask = () => {
+    doneTask(task.id!).then(() => {
+      getTasks();
+      navigate('/');
+    });
   };
 
   return (
@@ -49,12 +47,12 @@ function NextTaskCard({ task, onDoneTask }: Props): JSX.Element {
         )}
       </p>
       <div className="footer">
-        <p className="due-date">{dueDate.toLocaleDateString()}</p>
+        <p className="due-date">{task.dueDate!.toLocaleDateString()}</p>
         <Button
           color="on-light"
           variant="outlined"
           icon={<SuccessIcon />}
-          onClick={() => onDoneTask && onDoneTask(task)}
+          onClick={onDoneTask}
         >
           Fait
         </Button>

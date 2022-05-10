@@ -31,7 +31,7 @@ function createTask(task: TaskCreationDto): Promise<Task> {
     });
 }
 
-function doneTask(id: number): Promise<unknown> {
+function doneTask(id: number): Promise<void> {
   return heyvHttp.post(`${taskApiUrl}/${id}/done`);
 }
 
