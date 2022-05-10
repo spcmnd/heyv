@@ -1,0 +1,92 @@
+@use 'src/styles/base/colors' as colors;
+@use 'src/styles/functions' as functions;
+@use 'src/styles/mixins' as mixins;
+
+.Button {
+  align-items: center;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  padding: functions.space(1) functions.space(2);
+  @include mixins.body-small-semi-bold();
+
+  > * + * {
+    margin-left: functions.space(0.5);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.filled {
+    color: white;
+
+    &.primary {
+      background: colors.$primary;
+      border: 1px solid colors.$primary;
+    }
+
+    &.accent {
+      background: colors.$secondary;
+      border: 1px solid colors.$secondary;
+    }
+
+    &.on-light {
+      background: white;
+      border: white;
+      color: colors.$textCommon;
+    }
+
+    &.disabled {
+      background: colors.$textDisabled;
+      border: colors.$textDisabled;
+      color: white;
+    }
+  }
+
+  &.outlined {
+    background: none;
+
+    &.primary {
+      border: 1px solid colors.$primary;
+      color: colors.$primary;
+    }
+
+    &.accent {
+      border: 1px solid colors.$secondary;
+      color: colors.$secondary;
+    }
+
+    &.on-light {
+      border: 1px solid white;
+      color: white;
+    }
+
+    &.disabled {
+      border: colors.$textDisabled;
+      color: colors.$textDisabled;
+    }
+  }
+
+  &.text {
+    background: none;
+    border: none;
+
+    &.primary {
+      color: colors.$primary;
+    }
+
+    &.accent {
+      color: colors.$secondary;
+    }
+
+    &.on-light {
+      color: colors.$textCommon;
+    }
+
+    &.disabled {
+      color: colors.$textDisabled;
+    }
+  }
+}

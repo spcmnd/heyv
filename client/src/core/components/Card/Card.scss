@@ -1,0 +1,14 @@
+@use 'src/styles/base/colors' as colors;
+@use 'src/styles/functions' as functions;
+
+.Card {
+  padding: functions.space(2);
+
+  &.primary {
+    background-color: colors.$primary;
+  }
+
+  &.secondary {
+    background-color: colors.$secondary;
+  }
+}

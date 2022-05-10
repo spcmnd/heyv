@@ -1,0 +1,57 @@
+@use '../functions' as f;
+
+@mixin title-big() {
+  font-style: normal;
+  font-weight: 700;
+  font-size: f.toRem(32px);
+  line-height: f.toRem(39px);
+}
+
+@mixin title-small() {
+  font-style: normal;
+  font-weight: 600;
+  font-size: f.toRem(20px);
+  line-height: f.toRem(24px);
+}
+
+@mixin body-regular() {
+  font-style: normal;
+  font-weight: 400;
+  font-size: f.toRem(16px);
+  line-height: f.toRem(22px);
+}
+
+@mixin body-medium() {
+  font-style: normal;
+  font-weight: 600;
+  font-size: f.toRem(16px);
+  line-height: f.toRem(22px);
+}
+
+@mixin body-small() {
+  font-style: normal;
+  font-weight: 400;
+  font-size: f.toRem(14px);
+  line-height: f.toRem(19px);
+}
+
+@mixin body-small-semi-bold() {
+  font-style: normal;
+  font-weight: 600;
+  font-size: f.toRem(14px);
+  line-height: f.toRem(19px);
+}
+
+@mixin body-caption() {
+  font-style: normal;
+  font-weight: 400;
+  font-size: f.toRem(12px);
+  line-height: f.toRem(16px);
+}
+
+@mixin body-caption-semi-bold() {
+  font-style: normal;
+  font-weight: 600;
+  font-size: f.toRem(12px);
+  line-height: f.toRem(16px);
+}

@@ -1,0 +1,12 @@
+@use 'src/styles/mixins' as m;
+@use 'src/styles/functions' as f;
+
+.App {
+  display: inline-block;
+  padding: f.space(2);
+  width: 100%;
+  
+  h1 {
+    @include m.title-big();
+  }
+}
