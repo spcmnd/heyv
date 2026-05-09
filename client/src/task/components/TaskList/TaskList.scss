@@ -1,7 +1,0 @@
-@use 'src/styles/functions' as functions;
-
-.TaskList {
-  > li + li {
-    margin-top: functions.space();
-  }
-}

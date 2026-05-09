@@ -1,9 +1,0 @@
-@use 'src/styles/functions' as functions;
-@use 'src/styles/mixins' as mixins;
-
-.RootLayout {
-  > h1 {
-    margin-bottom: functions.space(4);
-    @include mixins.title-big();
-  }
-}
