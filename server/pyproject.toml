@@ -6,8 +6,10 @@ line-length = 120
 ignore = [
     "E501", # Never enforce `E501` (line length violations), which can be trivial.
     "D100", # Never warn about missing public docstrings.
-    "D101", # Ignore missing docstring public class
+    "D101", # Ignore missing docstring public class.
+    "D102", # Ignore missing docstring public method.
     "D105", # Ignore docstrings in magic methods.
+    "D106", # Ignore docstrings in nested methods.
     "D202", # Ignore blank line after dosctrings.
     "D212", # Ignore first line docstrings.
 ]
