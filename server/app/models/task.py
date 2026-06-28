@@ -7,11 +7,10 @@ from .category import Category
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False, help_text="Name of the task.")
+    name = models.CharField(max_length=255, help_text="Required. Name of the task.")
     description = models.TextField(blank=True, null=True, help_text="Description of the task.")
-    interval = models.CharField(
-        max_length=255, blank=False, null=False, help_text="Interval of the task. Format : d w m y."
-    )
+    interval = models.CharField(max_length=255, help_text="Required. Interval of the task. Format : d w m y.")
+
     last_done_date = models.DateField(
         blank=True,
         null=True,
@@ -20,8 +19,11 @@ class Task(models.Model):
     due_date = models.DateField(
         blank=True, null=True, help_text="Due date of the task. Re-calculated when the last_done_date is updated."
     )
+
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def recalculate_due_date(self):
         if self.last_done_date:
