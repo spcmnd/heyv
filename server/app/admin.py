@@ -37,6 +37,9 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ["id", "name"]
     inlines = [TaskCategoryInline]
 
+    def get_inlines(self, request, obj):
+        return self.inlines if obj else []
+
 
 admin.site.register(Category, CategoryAdmin)
 
@@ -61,7 +64,12 @@ class TaskAdmin(admin.ModelAdmin):
         )
     ]
     readonly_fields = ["id", "created_at", "updated_at"]
-    list_display = ["id", "name"]
+    list_display = ["id", "name", "display_categories"]
+    list_filter = ["category"]
+
+    @admin.display(description="Category")
+    def display_categories(self, obj):
+        return ",".join(c.name for c in obj.category.all())
 
 
 admin.site.register(Task, TaskAdmin)
