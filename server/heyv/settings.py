@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "app",
     # Third
     "rest_framework",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -127,6 +128,10 @@ AUTH_USER_MODEL = "app.User"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+    ],
 }
 
 SIMPLE_JWT = {"ROTATE_REFRESH_TOKENS": True, "REFRESH_TOKEN_LIFETIME": timedelta(days=30), "UPDATE_LAST_LOGIN": True}
