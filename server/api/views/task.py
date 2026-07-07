@@ -18,8 +18,7 @@ class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
         instance = serializer.instance
         old_last_done_date = instance.last_done_date
 
-        instance = serializer.save()
-
         if old_last_done_date != instance.last_done_date:
             instance.recalculate_due_date()
-            instance.save(update_fields=["due_date"])
+
+        instance = serializer.save()
