@@ -39,6 +39,7 @@ class TaskAdmin(admin.ModelAdmin):
                     "id",
                     "name",
                     "description",
+                    "interval",
                     "last_done_date",
                     "due_date",
                     "category",
