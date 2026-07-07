@@ -22,10 +22,20 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(User, CustomUserAdmin)
 
 
+class TaskCategoryInline(admin.TabularInline):
+    model = Task.category.through
+    extra = 0
+    fields = ["task"]
+    readonly_fields = ["task"]
+    verbose_name = "Task"
+    verbose_name_plural = "Tasks"
+
+
 class CategoryAdmin(admin.ModelAdmin):
     fieldsets = [(None, {"fields": ["id", "name"]})]
     readonly_fields = ["id"]
     list_display = ["id", "name"]
+    inlines = [TaskCategoryInline]
 
 
 admin.site.register(Category, CategoryAdmin)
@@ -51,6 +61,7 @@ class TaskAdmin(admin.ModelAdmin):
         )
     ]
     readonly_fields = ["id", "created_at", "updated_at"]
+    list_display = ["id", "name"]
 
 
 admin.site.register(Task, TaskAdmin)
