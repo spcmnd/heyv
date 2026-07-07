@@ -44,7 +44,7 @@ class Task(models.Model):
         blank=True, null=True, help_text="Due date of the task. Re-calculated when the last_done_date is updated."
     )
 
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
+    category = models.ManyToManyField(Category)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
