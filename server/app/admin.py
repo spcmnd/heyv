@@ -25,6 +25,7 @@ admin.site.register(User, CustomUserAdmin)
 class CategoryAdmin(admin.ModelAdmin):
     fieldsets = [(None, {"fields": ["id", "name"]})]
     readonly_fields = ["id"]
+    list_display = ["id", "name"]
 
 
 admin.site.register(Category, CategoryAdmin)
