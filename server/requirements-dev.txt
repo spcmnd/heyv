@@ -1,4 +1,1 @@
-# Import the production dependencies
--r requirements.txt
-
-ruff==0.15.12
+-r requirements/local.txt
