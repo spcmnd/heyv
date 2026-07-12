@@ -1,77 +1,72 @@
-@use 'colors' as *;
+@use "colors" as *;
 
 /* ==========================================================
    BACKGROUND
    ========================================================== */
 
 .bg-background {
-    background: $background;
+  background: $background;
 }
 
 .bg-background-alt {
-    background: $background-alt;
+  background: $background-alt;
 }
 
-.bg-surface {
-    background: $surface;
-}
-
-.hover\:bg-surface {
-    &:hover {
-        background: $surface;
-    }
+.bg-surface,
+.hover\:bg-surface:hover {
+  background: $surface;
 }
 
 .bg-primary {
-    background: $primary;
+  background: $primary;
 }
 
 .bg-primary-light {
-    background: $primary-light;
+  background: $primary-light;
 }
 
 .bg-success {
-    background: $success;
+  background: $success;
 }
 
 .bg-success-light {
-    background: $success-light;
+  background: $success-light;
 }
 
 .bg-warning {
-    background: $warning;
+  background: $warning;
 }
 
 .bg-warning-light {
-    background: $warning-light;
+  background: $warning-light;
 }
 
 .bg-error {
-    background: $error;
+  background: $error;
 }
 
 .bg-error-light {
-    background: $error-light;
+  background: $error-light;
 }
 
 .bg-info {
-    background: $info;
+  background: $info;
 }
 
 .bg-info-light {
-    background: $info-light;
+  background: $info-light;
 }
 
 .bg-sage {
-    background: $sage;
+  background: $sage;
 }
 
 .bg-beige {
-    background: $beige;
+  background: $beige;
 }
 
 .bg-cream {
-    background: $cream;
+  background: $cream;
 }
 
 /* ==========================================================
@@ -79,45 +74,40 @@
    ========================================================== */
 
 .text-primary {
-    color: $text-primary;
+  color: $text-primary;
 }
 
 .text-secondary {
-    color: $text-secondary;
+  color: $text-secondary;
 }
 
 .text-tertiary {
-    color: $text-tertiary;
+  color: $text-tertiary;
 }
 
 .text-inverse {
-    color: $text-inverse;
+  color: $text-inverse;
 }
 
 .text-brand {
-    color: $primary;
+  color: $primary;
 }
 
 .text-success {
-    color: $success-dark;
+  color: $success-dark;
 }
 
 .text-warning {
-    color: $warning-dark;
+  color: $warning-dark;
 }
 
-.text-error {
-    color: $error-dark;
-}
-
-.hover\:text-error {
-    &:hover {
-        color: $error-dark;
-    }
+.text-error,
+.hover\:text-error:hover {
+  color: $error-dark;
 }
 
 .text-info {
-    color: $info-dark;
+  color: $info-dark;
 }
 
 /* ==========================================================
@@ -125,31 +115,31 @@
    ========================================================== */
 
 .border {
-    border-color: $border;
+  border-color: $border;
 }
 
 .border-light {
-    border-color: $border-light;
+  border-color: $border-light;
 }
 
 .border-primary {
-    border-color: $primary;
+  border-color: $primary;
 }
 
 .border-success {
-    border-color: $success;
+  border-color: $success;
 }
 
 .border-warning {
-    border-color: $warning;
+  border-color: $warning;
 }
 
 .border-error {
-    border-color: $error;
+  border-color: $error;
 }
 
 .border-info {
-    border-color: $info;
+  border-color: $info;
 }
 
 /* ==========================================================
@@ -157,23 +147,23 @@
    ========================================================== */
 
 .fill-primary {
-    fill: $primary;
+  fill: $primary;
 }
 
 .fill-success {
-    fill: $success-dark;
+  fill: $success-dark;
 }
 
 .fill-warning {
-    fill: $warning-dark;
+  fill: $warning-dark;
 }
 
 .fill-error {
-    fill: $error-dark;
+  fill: $error-dark;
 }
 
 .fill-info {
-    fill: $info-dark;
+  fill: $info-dark;
 }
 
 /* ==========================================================
@@ -181,21 +171,21 @@
    ========================================================== */
 
 .stroke-primary {
-    stroke: $primary;
+  stroke: $primary;
 }
 
 .stroke-success {
-    stroke: $success-dark;
+  stroke: $success-dark;
 }
 
 .stroke-warning {
-    stroke: $warning-dark;
+  stroke: $warning-dark;
 }
 
 .stroke-error {
-    stroke: $error-dark;
+  stroke: $error-dark;
 }
 
 .stroke-info {
-    stroke: $info-dark;
+  stroke: $info-dark;
 }
