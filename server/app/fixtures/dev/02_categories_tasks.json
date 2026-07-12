@@ -1,83 +1,83 @@
 [
-{
-  "model": "app.category",
-  "pk": 1,
-  "fields": {
-    "name": "Cuisine"
+  {
+    "model": "app.category",
+    "pk": 1,
+    "fields": {
+      "name": "Cuisine"
+    }
+  },
+  {
+    "model": "app.category",
+    "pk": 2,
+    "fields": {
+      "name": "Salon"
+    }
+  },
+  {
+    "model": "app.category",
+    "pk": 3,
+    "fields": {
+      "name": "Salle de bain"
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 1,
+    "fields": {
+      "name": "Faire la vaisselle",
+      "description": "Laver et ranger toute la vaisselle sale.",
+      "interval": "1 0 0 0",
+      "created_at": "2026-07-07T00:00:00Z",
+      "updated_at": "2026-07-07T00:00:00Z",
+      "category": [1]
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 2,
+    "fields": {
+      "name": "Nettoyer les plans de travail",
+      "description": "Désinfecter et ranger les plans de travail de la cuisine.",
+      "interval": "0 1 0 0",
+      "created_at": "2026-07-07T00:00:00Z",
+      "updated_at": "2026-07-07T00:00:00Z",
+      "category": [1]
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 3,
+    "fields": {
+      "name": "Passer l'aspirateur",
+      "description": "Passer l'aspirateur dans tout le salon.",
+      "interval": "0 1 0 0",
+      "created_at": "2026-07-07T00:00:00Z",
+      "updated_at": "2026-07-07T00:00:00Z",
+      "category": [2]
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 4,
+    "fields": {
+      "name": "Faire les poussières",
+      "description": "Dépoussiérer les meubles et les étagères du salon.",
+      "interval": "0 2 0 0",
+      "created_at": "2026-07-07T00:00:00Z",
+      "updated_at": "2026-07-07T00:00:00Z",
+      "category": [2]
+    }
+  },
+  {
+    "model": "app.task",
+    "pk": 5,
+    "fields": {
+      "name": "Nettoyer la salle de bain",
+      "description": "Nettoyer les toilettes, le lavabo et la douche.",
+      "interval": "0 1 0 0",
+      "created_at": "2026-07-07T00:00:00Z",
+      "updated_at": "2026-07-07T00:00:00Z",
+      "category": [3]
+    }
   }
-},
-{
-  "model": "app.category",
-  "pk": 2,
-  "fields": {
-    "name": "Salon"
-  }
-},
-{
-  "model": "app.category",
-  "pk": 3,
-  "fields": {
-    "name": "Salle de bain"
-  }
-},
-{
-  "model": "app.task",
-  "pk": 1,
-  "fields": {
-    "name": "Faire la vaisselle",
-    "description": "Laver et ranger toute la vaisselle sale.",
-    "interval": "1 0 0 0",
-    "created_at": "2026-07-07T00:00:00Z",
-    "updated_at": "2026-07-07T00:00:00Z",
-    "category": [1]
-  }
-},
-{
-  "model": "app.task",
-  "pk": 2,
-  "fields": {
-    "name": "Nettoyer les plans de travail",
-    "description": "Désinfecter et ranger les plans de travail de la cuisine.",
-    "interval": "0 1 0 0",
-    "created_at": "2026-07-07T00:00:00Z",
-    "updated_at": "2026-07-07T00:00:00Z",
-    "category": [1]
-  }
-},
-{
-  "model": "app.task",
-  "pk": 3,
-  "fields": {
-    "name": "Passer l'aspirateur",
-    "description": "Passer l'aspirateur dans tout le salon.",
-    "interval": "0 1 0 0",
-    "created_at": "2026-07-07T00:00:00Z",
-    "updated_at": "2026-07-07T00:00:00Z",
-    "category": [2]
-  }
-},
-{
-  "model": "app.task",
-  "pk": 4,
-  "fields": {
-    "name": "Faire les poussières",
-    "description": "Dépoussiérer les meubles et les étagères du salon.",
-    "interval": "0 2 0 0",
-    "created_at": "2026-07-07T00:00:00Z",
-    "updated_at": "2026-07-07T00:00:00Z",
-    "category": [2]
-  }
-},
-{
-  "model": "app.task",
-  "pk": 5,
-  "fields": {
-    "name": "Nettoyer la salle de bain",
-    "description": "Nettoyer les toilettes, le lavabo et la douche.",
-    "interval": "0 1 0 0",
-    "created_at": "2026-07-07T00:00:00Z",
-    "updated_at": "2026-07-07T00:00:00Z",
-    "category": [3]
-  }
-}
 ]

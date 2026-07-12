@@ -4,26 +4,26 @@ line-length = 120
 [tool.ruff.lint]
 
 ignore = [
-    "E501", # Never enforce `E501` (line length violations), which can be trivial.
-    "D100", # Never warn about missing public docstrings.
-    "D101", # Ignore missing docstring public class.
-    "D102", # Ignore missing docstring public method.
-    "D105", # Ignore docstrings in magic methods.
-    "D106", # Ignore docstrings in nested methods.
-    "D202", # Ignore blank line after dosctrings.
-    "D212", # Ignore first line docstrings.
+  "E501", # Never enforce `E501` (line length violations), which can be trivial.
+  "D100", # Never warn about missing public docstrings.
+  "D101", # Ignore missing docstring public class.
+  "D102", # Ignore missing docstring public method.
+  "D105", # Ignore docstrings in magic methods.
+  "D106", # Ignore docstrings in nested methods.
+  "D202", # Ignore blank line after dosctrings.
+  "D212", # Ignore first line docstrings.
 ]
 select = [
-    "C",   # Convention violations, like coding standards issues (PEP8)
-    "E",   # Errors that could cause exceptions or major functionality issues
-    "F",   # Flaws in type annotations
-    "I",   # Import-related linting issues
-    "W",   # Warnings for stylistic or minor programming issues
-    "PL",  # PyLint checks, including unused function variables
-    "N",   # Naming convention checks (PEP8)
-    "D",   # Docstring style checks, often based on Google's style guidelines
-    "UP",  # Checks for deprecated Python features that could be upgraded
-    "FIX", # Reminder tags for TODOs and FIXMEs in the code
+  "C", # Convention violations, like coding standards issues (PEP8)
+  "E", # Errors that could cause exceptions or major functionality issues
+  "F", # Flaws in type annotations
+  "I", # Import-related linting issues
+  "W", # Warnings for stylistic or minor programming issues
+  "PL", # PyLint checks, including unused function variables
+  "N", # Naming convention checks (PEP8)
+  "D", # Docstring style checks, often based on Google's style guidelines
+  "UP", # Checks for deprecated Python features that could be upgraded
+  "FIX", # Reminder tags for TODOs and FIXMEs in the code
 ]
 pydocstyle.convention = "google"
 
