@@ -16,8 +16,10 @@
     background: $surface;
 }
 
-.bg-surface-hover {
-    background: $surface-hover;
+.hover\:bg-surface {
+    &:hover {
+        background: $surface;
+    }
 }
 
 .bg-primary {
@@ -106,6 +108,12 @@
 
 .text-error {
     color: $error-dark;
+}
+
+.hover\:text-error {
+    &:hover {
+        color: $error-dark;
+    }
 }
 
 .text-info {
