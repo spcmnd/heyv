@@ -2,7 +2,7 @@ import "./App.scss";
 
 import Sidebar from "./components/layout/Sidebar";
 
-async function App() {
+function App() {
   return (
     <div className="flex h-screen">
       <Sidebar />
