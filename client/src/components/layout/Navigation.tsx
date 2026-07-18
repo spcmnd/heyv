@@ -1,10 +1,15 @@
-import { LayoutDashboard, ClipboardList, Settings } from "lucide-react";
 import { useState } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  DashboardSquare01Icon,
+  ClipboardListIcon,
+  Settings01Icon,
+} from "@hugeicons/core-free-icons";
 
 const navItems = [
-  { label: "Dashboard", icon: LayoutDashboard },
-  { label: "Tâches", icon: ClipboardList },
-  { label: "Paramètres", icon: Settings },
+  { label: "Dashboard", icon: DashboardSquare01Icon },
+  { label: "Tâches", icon: ClipboardListIcon },
+  { label: "Paramètres", icon: Settings01Icon },
 ];
 
 function Navigation() {
@@ -22,7 +27,7 @@ function Navigation() {
               : "text-secondary hover:bg-surface-hover hover:text-primary"
           }`}
         >
-          <Icon size={24} className={active === label ? "text-brand" : ""} />
+          <HugeiconsIcon icon={Icon} size={24} className={active === label ? "text-brand" : ""} />
           {label}
         </button>
       ))}
