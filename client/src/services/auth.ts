@@ -1,47 +1,71 @@
 export interface TokenCredentials {
-    access?: string;
-    refresh?: string;
+  access?: string;
+  refresh?: string;
 }
 
-export class AuthService {
-    private baseUrl: string;
+class AuthService {
+  private baseUrl: string;
 
-    constructor() {
-        const apiUrl = import.meta.env.VITE_API_URL;
+  constructor() {
+    const apiUrl = import.meta.env.VITE_API_URL;
 
-        if (!apiUrl) {
-            throw new Error('API URL not provided.');
-        }
-
-        this.baseUrl = apiUrl;
+    if (!apiUrl) {
+      throw new Error("API URL not provided.");
     }
 
-    public async login(username: string, password: string) {
-        const response = await fetch(`${this.baseUrl}/auth/login/`, {
-            method: "POST",
-            body: JSON.stringify({ username, password }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+    this.baseUrl = apiUrl;
+  }
 
-        return response.json() as Promise<TokenCredentials>;
+  public async login(username: string, password: string) {
+    const response = await fetch(`${this.baseUrl}/auth/login/`, {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Login has failed.");
     }
 
-    public async refresh(refreshToken: string) {
-        const response = await fetch(`${this.baseUrl}/auth/refresh/`, {
-            method: "POST",
-            body: JSON.stringify({ refresh: refreshToken }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+    const { access, refresh } = await response.json();
+    this.saveTokens(access, refresh);
 
-        if (!response.ok) {
-            // TODO: Redirect to login.
-            throw new Error('Session expired.');
-        }
+    return;
+  }
 
-        return response.json() as Promise<TokenCredentials>;
+  public async refresh(refreshToken: string) {
+    const response = await fetch(`${this.baseUrl}/auth/refresh/`, {
+      method: "POST",
+      body: JSON.stringify({ refresh: refreshToken }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      // TODO: Redirect to login.
+      throw new Error("Session expired.");
     }
+
+    const { access, refresh } = await response.json();
+    this.saveTokens(access, refresh);
+
+    return;
+  }
+
+  public getTokensFromStorage() {
+    return {
+      access: localStorage.getItem("heyv_access"),
+      refresh: localStorage.getItem("heyv_refresh"),
+    };
+  }
+
+  private saveTokens(access: string, refresh: string) {
+    localStorage.setItem("heyv_access", access);
+    localStorage.setItem("heyv_refresh", refresh);
+  }
 }
+
+export default new AuthService();

@@ -2,6 +2,7 @@ import "./App.scss";
 
 import Sidebar from "./components/layout/Sidebar";
 import { ConfigProvider } from "antd";
+import { AuthProvider } from "./providers/AuthProvider";
 
 function App() {
   return (
@@ -12,10 +13,12 @@ function App() {
         },
       }}
     >
-      <div className="flex h-screen">
-        <Sidebar />
-        <main className="flex-1 p-8"></main>
-      </div>
+      <AuthProvider>
+        <div className="flex h-screen">
+          <Sidebar />
+          <main className="flex-1 p-8"></main>
+        </div>
+      </AuthProvider>
     </ConfigProvider>
   );
 }
