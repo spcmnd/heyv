@@ -8,7 +8,7 @@ function Dashboard() {
 
   return (
     <>
-      <header className="flex justify-between gap-4">
+      <header className="flex justify-between gap-4 items-start">
         <div className="flex gap-4 flex-col">
           <h1 className="text-4xl font-medium">Bonjour {user?.firstName} 👋</h1>
           <p className="text-secondary">
