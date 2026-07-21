@@ -24,7 +24,7 @@ function Profile() {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-4 w-full px-4 py-4 rounded-lg border hover:bg-surface hover:cursor-pointer"
+        className="flex items-center gap-4 w-full px-4 py-4 rounded-lg border border-border hover:bg-surface hover:cursor-pointer"
       >
         <div className="w-8 h-8 rounded-full bg-beige flex items-center justify-center">
           <HugeiconsIcon icon={UserIcon} size={16} className="text-primary" />
@@ -43,7 +43,7 @@ function Profile() {
       </button>
 
       {open && (
-        <div className="absolute bottom-full left-0 right-0 mb-2 bg-surface border rounded-lg shadow-sm overflow-hidden">
+        <div className="absolute bottom-full left-0 right-0 mb-2 bg-surface border border-border rounded-lg shadow-sm overflow-hidden">
           <button className="flex items-center gap-4 w-full px-4 py-2 text-sm text-secondary hover:bg-surface text-error transition-colors hover:cursor-pointer">
             <HugeiconsIcon icon={Logout01Icon} size={16} />
             Se déconnecter
