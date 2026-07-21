@@ -5,6 +5,7 @@ import { ConfigProvider } from "antd";
 import { AuthProvider } from "./providers/AuthProvider";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Dashboard from "./pages/Dashboard";
+import Tasks from "./domains/task/pages/Tasks";
 
 function App() {
   return (
@@ -16,16 +17,17 @@ function App() {
       }}
     >
       <AuthProvider>
-        <div className="flex h-screen">
-          <Sidebar />
-          <main className="flex-1 px-12 py-10">
-            <BrowserRouter>
+        <BrowserRouter>
+          <div className="flex h-screen">
+            <Sidebar />
+            <main className="flex-1 px-12 py-10">
               <Routes>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/tasks" element={<Tasks />} />
               </Routes>
-            </BrowserRouter>
-          </main>
-        </div>
+            </main>
+          </div>
+        </BrowserRouter>
       </AuthProvider>
     </ConfigProvider>
   );
