@@ -1,3 +1,25 @@
+[project]
+name = "heyv"
+version = "0.1.0"
+requires-python = ">=3.13,<3.14"
+
+dependencies = [
+  "Django>=6.0,<7.0",
+  "django-cors-headers>=4.7",
+  "django-filter>=25.2",
+  "djangorestframework>=3.17",
+  "djangorestframework-simplejwt>=5.5",
+]
+
+[dependency-groups]
+dev = ["ruff>=0.15.12", "basedpyright>=1.39.9", "django-stubs>=6.0.7"]
+
+production = [
+  "gunicorn>=24.0,<25.0",
+  "psycopg[binary]>=3.2,<4.0",
+  "whitenoise>=6.9,<7.0",
+]
+
 [tool.ruff]
 line-length = 120
 
@@ -14,15 +36,15 @@ ignore = [
   "D212", # Ignore first line docstrings.
 ]
 select = [
-  "C", # Convention violations, like coding standards issues (PEP8)
-  "E", # Errors that could cause exceptions or major functionality issues
-  "F", # Flaws in type annotations
-  "I", # Import-related linting issues
-  "W", # Warnings for stylistic or minor programming issues
-  "PL", # PyLint checks, including unused function variables
-  "N", # Naming convention checks (PEP8)
-  "D", # Docstring style checks, often based on Google's style guidelines
-  "UP", # Checks for deprecated Python features that could be upgraded
+  "C",   # Convention violations, like coding standards issues (PEP8)
+  "E",   # Errors that could cause exceptions or major functionality issues
+  "F",   # Flaws in type annotations
+  "I",   # Import-related linting issues
+  "W",   # Warnings for stylistic or minor programming issues
+  "PL",  # PyLint checks, including unused function variables
+  "N",   # Naming convention checks (PEP8)
+  "D",   # Docstring style checks, often based on Google's style guidelines
+  "UP",  # Checks for deprecated Python features that could be upgraded
   "FIX", # Reminder tags for TODOs and FIXMEs in the code
 ]
 pydocstyle.convention = "google"
@@ -50,3 +72,6 @@ line-ending = "auto"
 [tool.isort]
 profile = "black"
 lines_after_imports = 2
+
+[tool.django-stubs]
+django_settings_module = "heyc.settings.local"
