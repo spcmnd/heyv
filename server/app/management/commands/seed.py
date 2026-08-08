@@ -1,8 +1,6 @@
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 
-from app.models import Task
-
 
 class Command(BaseCommand):
     help = "Seed the database with initial data for local development."
@@ -26,12 +24,9 @@ class Command(BaseCommand):
         self.stdout.write("Flushing database...")
         call_command("flush", "--noinput", interactive=False)
 
-        for label in ("dev/01_users", "dev/02_categories_tasks"):
+        # TODO: Do better by having a dynamic list of labels.
+        for label in "dev/01_users":
             self.stdout.write(f"Loading {label}.json...")
             call_command("loaddata", label)
-
-        for task in Task.objects.all():
-            task.recalculate_due_date()
-            task.save()
 
         self.stdout.write(self.style.SUCCESS("Dev fixtures loaded successfully."))
