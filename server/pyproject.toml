@@ -12,7 +12,12 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["ruff>=0.15.12", "basedpyright>=1.39.9", "django-stubs>=6.0.7"]
+dev = [
+  "ruff>=0.15.12",
+  "basedpyright>=1.39.9",
+  "django-stubs>=6.0.7",
+  "djangorestframework-stubs>=3.17.1",
+]
 
 production = [
   "gunicorn>=24.0,<25.0",
@@ -74,4 +79,7 @@ profile = "black"
 lines_after_imports = 2
 
 [tool.django-stubs]
-django_settings_module = "heyc.settings.local"
+django_settings_module = "heyv.settings.local"
+
+[tool.djangorestframework-stubs]
+django_settings_module = "heyv.settings.local"

@@ -1,0 +1,437 @@
+[
+  {
+    "model": "app.taskoccurrence",
+    "pk": 1,
+    "fields": {
+      "task_template": 1,
+      "scheduled_for": "2026-08-05T08:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-05T08:12:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 10,
+      "notes": "",
+      "created_at": "2026-08-05T08:00:00Z",
+      "updated_at": "2026-08-05T08:12:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 2,
+    "fields": {
+      "task_template": 1,
+      "scheduled_for": "2026-08-06T08:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-06T08:10:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 10,
+      "notes": "",
+      "created_at": "2026-08-06T08:00:00Z",
+      "updated_at": "2026-08-06T08:10:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 3,
+    "fields": {
+      "task_template": 1,
+      "scheduled_for": "2026-08-07T08:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-07T08:08:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 8,
+      "notes": "",
+      "created_at": "2026-08-07T08:00:00Z",
+      "updated_at": "2026-08-07T08:08:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 4,
+    "fields": {
+      "task_template": 1,
+      "scheduled_for": "2026-08-08T08:00:00Z",
+      "status": "SKIPPED",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "Too busy, will wipe them tomorrow.",
+      "created_at": "2026-08-08T08:00:00Z",
+      "updated_at": "2026-08-08T08:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 5,
+    "fields": {
+      "task_template": 1,
+      "scheduled_for": "2026-08-09T08:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-09T08:15:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 12,
+      "notes": "",
+      "created_at": "2026-08-09T08:00:00Z",
+      "updated_at": "2026-08-09T08:15:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 6,
+    "fields": {
+      "task_template": 1,
+      "scheduled_for": "2026-08-10T08:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-10T08:00:00Z",
+      "updated_at": "2026-08-10T08:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 7,
+    "fields": {
+      "task_template": 1,
+      "scheduled_for": "2026-08-11T08:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-11T08:00:00Z",
+      "updated_at": "2026-08-11T08:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 8,
+    "fields": {
+      "task_template": 2,
+      "scheduled_for": "2026-08-07T18:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-07T18:05:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 5,
+      "notes": "",
+      "created_at": "2026-08-07T18:00:00Z",
+      "updated_at": "2026-08-07T18:05:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 9,
+    "fields": {
+      "task_template": 2,
+      "scheduled_for": "2026-08-08T18:00:00Z",
+      "status": "CANCELLED",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "No trash collection on weekends.",
+      "created_at": "2026-08-08T18:00:00Z",
+      "updated_at": "2026-08-08T18:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 10,
+    "fields": {
+      "task_template": 2,
+      "scheduled_for": "2026-08-10T18:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-10T18:00:00Z",
+      "updated_at": "2026-08-10T18:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 11,
+    "fields": {
+      "task_template": 2,
+      "scheduled_for": "2026-08-11T18:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-11T18:00:00Z",
+      "updated_at": "2026-08-11T18:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 12,
+    "fields": {
+      "task_template": 2,
+      "scheduled_for": "2026-08-12T18:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-12T18:00:00Z",
+      "updated_at": "2026-08-12T18:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 13,
+    "fields": {
+      "task_template": 3,
+      "scheduled_for": "2026-08-09T09:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-09T09:10:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 5,
+      "notes": "",
+      "created_at": "2026-08-09T09:00:00Z",
+      "updated_at": "2026-08-09T09:10:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 14,
+    "fields": {
+      "task_template": 3,
+      "scheduled_for": "2026-08-10T09:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-10T09:00:00Z",
+      "updated_at": "2026-08-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 15,
+    "fields": {
+      "task_template": 3,
+      "scheduled_for": "2026-08-11T09:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-11T09:00:00Z",
+      "updated_at": "2026-08-11T09:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 16,
+    "fields": {
+      "task_template": 4,
+      "scheduled_for": "2026-08-03T10:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-03T10:50:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 45,
+      "notes": "",
+      "created_at": "2026-08-03T10:00:00Z",
+      "updated_at": "2026-08-03T10:50:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 17,
+    "fields": {
+      "task_template": 4,
+      "scheduled_for": "2026-08-10T10:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-10T10:00:00Z",
+      "updated_at": "2026-08-10T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 18,
+    "fields": {
+      "task_template": 5,
+      "scheduled_for": "2026-08-08T09:30:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-08T10:05:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 30,
+      "notes": "",
+      "created_at": "2026-08-08T09:30:00Z",
+      "updated_at": "2026-08-08T10:05:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 19,
+    "fields": {
+      "task_template": 5,
+      "scheduled_for": "2026-08-22T09:30:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-22T09:30:00Z",
+      "updated_at": "2026-08-22T09:30:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 20,
+    "fields": {
+      "task_template": 6,
+      "scheduled_for": "2026-08-01T09:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-01T09:25:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 20,
+      "notes": "",
+      "created_at": "2026-08-01T09:00:00Z",
+      "updated_at": "2026-08-01T09:25:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 21,
+    "fields": {
+      "task_template": 6,
+      "scheduled_for": "2026-09-01T09:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-09-01T09:00:00Z",
+      "updated_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 22,
+    "fields": {
+      "task_template": 7,
+      "scheduled_for": "2026-08-08T15:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-08T16:10:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 60,
+      "notes": "Edges need a trim next time.",
+      "created_at": "2026-08-08T15:00:00Z",
+      "updated_at": "2026-08-08T16:10:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 23,
+    "fields": {
+      "task_template": 7,
+      "scheduled_for": "2026-08-22T15:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-08-22T15:00:00Z",
+      "updated_at": "2026-08-22T15:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 24,
+    "fields": {
+      "task_template": 8,
+      "scheduled_for": "2026-08-03T12:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-03T12:35:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 30,
+      "notes": "",
+      "created_at": "2026-08-03T12:00:00Z",
+      "updated_at": "2026-08-03T12:35:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 25,
+    "fields": {
+      "task_template": 8,
+      "scheduled_for": "2026-09-07T12:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-09-07T12:00:00Z",
+      "updated_at": "2026-09-07T12:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 26,
+    "fields": {
+      "task_template": 9,
+      "scheduled_for": "2026-08-01T14:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-08-01T16:10:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 120,
+      "notes": "",
+      "created_at": "2026-08-01T14:00:00Z",
+      "updated_at": "2026-08-01T16:10:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 27,
+    "fields": {
+      "task_template": 9,
+      "scheduled_for": "2026-11-01T14:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2026-11-01T14:00:00Z",
+      "updated_at": "2026-11-01T14:00:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 28,
+    "fields": {
+      "task_template": 10,
+      "scheduled_for": "2026-01-15T10:00:00Z",
+      "status": "COMPLETED",
+      "completed_at": "2026-01-15T12:20:00Z",
+      "completed_by": 1,
+      "actual_duration_minutes": 120,
+      "notes": "Inspection passed, receipt filed.",
+      "created_at": "2026-01-15T10:00:00Z",
+      "updated_at": "2026-01-15T12:20:00Z"
+    }
+  },
+  {
+    "model": "app.taskoccurrence",
+    "pk": 29,
+    "fields": {
+      "task_template": 10,
+      "scheduled_for": "2027-01-15T10:00:00Z",
+      "status": "TODO",
+      "completed_at": null,
+      "completed_by": null,
+      "actual_duration_minutes": null,
+      "notes": "",
+      "created_at": "2027-01-15T10:00:00Z",
+      "updated_at": "2027-01-15T10:00:00Z"
+    }
+  }
+]
