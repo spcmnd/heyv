@@ -1,5 +1,9 @@
+from pathlib import Path
+
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
+
+FIXTURES_DIR = Path(__file__).resolve().parent.parent.parent / "fixtures"
 
 
 class Command(BaseCommand):
@@ -11,8 +15,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fixture_set = options["fixture_set"]
 
-        if fixture_set != "dev":
+        fixtures_dir = FIXTURES_DIR / fixture_set
+        if not fixtures_dir.is_dir():
             raise CommandError(f'Unknown fixture set: "{fixture_set}"')
+
+        labels = sorted(f"{fixture_set}/{path.stem}" for path in fixtures_dir.glob("*.json"))
 
         self.stdout.write(self.style.WARNING("This will flush the database (delete all data) and load dev fixtures."))
         answer = input("Are you sure? [y/N]: ")
@@ -24,8 +31,7 @@ class Command(BaseCommand):
         self.stdout.write("Flushing database...")
         call_command("flush", "--noinput", interactive=False)
 
-        # TODO: Do better by having a dynamic list of labels.
-        for label in "dev/01_users":
+        for label in labels:
             self.stdout.write(f"Loading {label}.json...")
             call_command("loaddata", label)
 
