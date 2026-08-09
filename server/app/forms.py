@@ -20,4 +20,4 @@ class UserChangeForm(forms.UserChangeForm):
         """Meta class to configure the form."""
 
         model = User
-        fields = ("username", "email")
+        fields = ("username", "email")  # pyright: ignore[reportAssignmentType]
