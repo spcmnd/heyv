@@ -69,10 +69,14 @@ class TaskTemplateSerializer(serializers.ModelSerializer):
         return task_template
 
     def update(self, instance, validated_data):
-        recurrence_rule_data = validated_data.pop("recurrence_rule", None)
+        if "recurrence_rule" in validated_data:
+            recurrence_rule_data = validated_data.pop("recurrence_rule")
 
-        if recurrence_rule_data:
-            if instance.recurrence_rule:
+            if not recurrence_rule_data:
+                if instance.recurrence_rule:
+                    instance.recurrence_rule.delete()
+                    instance.recurrence_rule = None
+            elif instance.recurrence_rule:
                 for key, value in recurrence_rule_data.items():
                     setattr(instance.recurrence_rule, key, value)
 
@@ -90,11 +94,3 @@ class TaskTemplateSerializer(serializers.ModelSerializer):
             recurrence_rule.full_clean(exclude=("created_at", "updated_at"))
         except DjangoValidationError as exc:
             raise serializers.ValidationError({"recurrence_rule": exc.message_dict}) from exc
-
-    def validate(self, attrs):
-        if attrs.get("archived_at") is not None:
-            raise serializers.ValidationError(
-                {"archived_at": "Use the restore action instead of setting this directly."}
-            )
-
-        return attrs
