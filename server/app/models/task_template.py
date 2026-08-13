@@ -14,7 +14,7 @@ class TaskTemplate(models.Model):
         MEDIUM = "MEDIUM", "Medium"
         HIGH = "HIGH", "High"
 
-    title = models.CharField(help_text="Title of the task.")
+    title = models.CharField(max_length=255, help_text="Title of the task.")
     description = models.TextField(blank=True, null=True)
 
     category = models.ManyToManyField(
@@ -43,6 +43,9 @@ class TaskTemplate(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     archived_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def __str__(self) -> str:
         return self.title

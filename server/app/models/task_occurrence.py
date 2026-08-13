@@ -13,7 +13,7 @@ class TaskOccurrence(models.Model):
         SKIPPED = "SKIPPED", "Skipped"
         CANCELLED = "CANCELLED", "Cancelled"
 
-    task_template = models.ForeignKey(TaskTemplate, on_delete=models.CASCADE, related_name="occurences")
+    task_template = models.ForeignKey(TaskTemplate, on_delete=models.CASCADE, related_name="occurrences")
 
     scheduled_for = models.DateTimeField()
 
