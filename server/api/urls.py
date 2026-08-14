@@ -11,6 +11,11 @@ from api.views.task_template import (
 from .views.auth import LoginAPIView
 from .views.category import CategoryListCreateAPIView, CategoryRetrieveUpdateDestroyAPIView
 from .views.room import RoomListCreateAPIView, RoomRetrieveUpdateDestroyAPIView
+from .views.task_occurrence import (
+    TaskOccurrenceCompleteAPIView,
+    TaskOccurrenceListAPIView,
+    TaskOccurrenceRetrieveAPIView,
+)
 from .views.user import UserRetrieveAPIView
 
 urlpatterns = [
@@ -40,5 +45,20 @@ urlpatterns = [
         "task-templates/<int:pk>/restore/",
         TaskTemplateRestoreAPIView.as_view(),
         name="api-task-template-restore",
+    ),
+    path(
+        "task-occurrences/",
+        TaskOccurrenceListAPIView.as_view(),
+        name="api-task-occurrence-list",
+    ),
+    path(
+        "task-occurrences/<int:pk>/",
+        TaskOccurrenceRetrieveAPIView.as_view(),
+        name="api-task-occurrence-retrieve",
+    ),
+    path(
+        "task-occurrences/<int:pk>/complete/",
+        TaskOccurrenceCompleteAPIView.as_view(),
+        name="api-task-occurrence-complete",
     ),
 ]
