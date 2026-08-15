@@ -60,6 +60,7 @@ pydocstyle.convention = "google"
 "__init__.py" = ["D104", "E402", "F401", "F403", "F811"]
 "**/migrations/*" = ["D"]
 "manage.py" = ["PLC0415"]
+"app/apps.py" = ["PLC0415"]
 
 [tool.ruff.format]
 # Like Black, use double quotes for strings.
