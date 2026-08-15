@@ -21,15 +21,23 @@ class TaskOccurrenceListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        task_template = self.request.query_params.get("task_template")
 
+        task_template = self.request.query_params.get("task_template")
         status = self.request.query_params.get("status")
+        date_from = self.request.query_params.get("from")
+        date_to = self.request.query_params.get("to")
 
         if task_template is not None:
             queryset = queryset.filter(task_template_id=task_template)
 
         if status is not None:
             queryset = queryset.filter(status=status)
+
+        if date_from is not None:
+            queryset = queryset.filter(scheduled_for__date__gte=date_from)
+
+        if date_to is not None:
+            queryset = queryset.filter(scheduled_for__date__lte=date_to)
 
         return queryset
 
