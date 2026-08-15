@@ -23,8 +23,13 @@ class TaskOccurrenceListAPIView(generics.ListAPIView):
         queryset = super().get_queryset()
         task_template = self.request.query_params.get("task_template")
 
+        status = self.request.query_params.get("status")
+
         if task_template is not None:
             queryset = queryset.filter(task_template_id=task_template)
+
+        if status is not None:
+            queryset = queryset.filter(status=status)
 
         return queryset
 

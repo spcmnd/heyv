@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from api.services.recurrence_rule import RecurrenceRuleService
-from app.models import RecurrenceRule, TaskOccurrence, TaskTemplate
+from app.models import TaskOccurrence, TaskTemplate
 
 
 class NestedTaskTemplateSerializer(serializers.ModelSerializer):
@@ -25,6 +25,7 @@ class TaskOccurrenceSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "scheduled_for",
+            "recurrence_label",
             "status",
             "task",
             "completed_at",
