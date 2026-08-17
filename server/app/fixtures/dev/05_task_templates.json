@@ -3,11 +3,9 @@
     "model": "app.tasktemplate",
     "pk": 1,
     "fields": {
-      "title": "Wipe down kitchen counters",
-      "description": "Sweep crumbs and wipe the counters with a damp cloth.",
-      "category": [
-        1
-      ],
+      "title": "Essuyer les plans de travail de la cuisine",
+      "description": "Balayer les miettes et essuyer les plans de travail avec un chiffon humide.",
+      "category": [1],
       "room": 1,
       "priority": "MEDIUM",
       "estimated_duration_minutes": 10,
@@ -15,20 +13,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 2,
     "fields": {
-      "title": "Take out the trash",
-      "description": "Empty the bins and take the bags to the street.",
-      "category": [
-        1,
-        4
-      ],
+      "title": "Sortir les poubelles",
+      "description": "Vider les poubelles et déposer les sacs dans la rue.",
+      "category": [1, 4],
       "room": 1,
       "priority": "MEDIUM",
       "estimated_duration_minutes": 5,
@@ -36,19 +31,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 3,
     "fields": {
-      "title": "Water the plants",
-      "description": "Water indoor plants and the balcony planters.",
-      "category": [
-        3
-      ],
+      "title": "Arroser les plantes",
+      "description": "Arroser les plantes d'intérieur et les jardinières du balcon.",
+      "category": [3],
       "room": 4,
       "priority": "LOW",
       "estimated_duration_minutes": 5,
@@ -56,19 +49,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 4,
     "fields": {
-      "title": "Clean the bathroom",
-      "description": "Scrub the toilet, sink, and shower, then mop the floor.",
-      "category": [
-        1
-      ],
+      "title": "Nettoyer la salle de bain",
+      "description": "Récurer les toilettes, le lavabo et la douche, puis laver le sol.",
+      "category": [1],
       "room": 2,
       "priority": "MEDIUM",
       "estimated_duration_minutes": 45,
@@ -76,19 +67,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 5,
     "fields": {
-      "title": "Vacuum the bedroom",
-      "description": "Vacuum carpets and under the bed.",
-      "category": [
-        1
-      ],
+      "title": "Passer l'aspirateur dans la chambre",
+      "description": "Passer l'aspirateur sur les tapis et sous le lit.",
+      "category": [1],
       "room": 3,
       "priority": "LOW",
       "estimated_duration_minutes": 30,
@@ -96,19 +85,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 6,
     "fields": {
-      "title": "Change bed sheets",
-      "description": "Strip the bed, wash the sheets, and make the bed.",
-      "category": [
-        1
-      ],
+      "title": "Changer les draps",
+      "description": "Retirer les draps, les laver et refaire le lit.",
+      "category": [1],
       "room": 3,
       "priority": "MEDIUM",
       "estimated_duration_minutes": 20,
@@ -116,19 +103,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 7,
     "fields": {
-      "title": "Mow the lawn",
-      "description": "Mow the front and back lawns and edge the borders.",
-      "category": [
-        3
-      ],
+      "title": "Tondre la pelouse",
+      "description": "Tondre la pelouse avant et arrière et tailler les bordures.",
+      "category": [3],
       "room": 6,
       "priority": "HIGH",
       "estimated_duration_minutes": 60,
@@ -136,20 +121,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 8,
     "fields": {
-      "title": "Pay the bills",
-      "description": "Pay rent, utilities, and subscriptions for the month.",
-      "category": [
-        4,
-        5
-      ],
+      "title": "Payer les factures",
+      "description": "Payer le loyer, les factures et les abonnements du mois.",
+      "category": [4, 5],
       "room": 5,
       "priority": "HIGH",
       "estimated_duration_minutes": 30,
@@ -157,20 +139,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 9,
     "fields": {
-      "title": "Deep clean the oven",
-      "description": "Remove racks, soak, and scrub the oven interior.",
-      "category": [
-        1,
-        2
-      ],
+      "title": "Nettoyer le four en profondeur",
+      "description": "Retirer les grilles, faire tremper et récurer l'intérieur du four.",
+      "category": [1, 2],
       "room": 1,
       "priority": "MEDIUM",
       "estimated_duration_minutes": 120,
@@ -178,19 +157,17 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.tasktemplate",
     "pk": 10,
     "fields": {
-      "title": "Service the boiler",
-      "description": "Book the yearly boiler inspection and keep the receipt.",
-      "category": [
-        2
-      ],
+      "title": "Entretenir la chaudière",
+      "description": "Programmer la visite annuelle de la chaudière et conserver le reçu.",
+      "category": [2],
       "room": 7,
       "priority": "HIGH",
       "estimated_duration_minutes": 120,
@@ -198,8 +175,8 @@
       "is_active": true,
       "created_by": 1,
       "archived_at": null,
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "created_at": "__TODAY-228__T00:00:00Z",
+      "updated_at": "__TODAY-228__T00:00:00Z"
     }
   }
 ]

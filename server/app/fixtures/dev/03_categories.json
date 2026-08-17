@@ -3,45 +3,45 @@
     "model": "app.category",
     "pk": 1,
     "fields": {
-      "name": "Cleaning",
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "name": "Nettoyage",
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.category",
     "pk": 2,
     "fields": {
-      "name": "Maintenance",
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "name": "Entretien",
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.category",
     "pk": 3,
     "fields": {
-      "name": "Gardening",
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "name": "Jardinage",
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.category",
     "pk": 4,
     "fields": {
-      "name": "Errands",
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "name": "Courses",
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   },
   {
     "model": "app.category",
     "pk": 5,
     "fields": {
-      "name": "Planning",
-      "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "name": "Planification",
+      "created_at": "__TODAY-16__T00:00:00Z",
+      "updated_at": "__TODAY-16__T00:00:00Z"
     }
   }
 ]

@@ -5,7 +5,7 @@
     "fields": {
       "password": "pbkdf2_sha256$1200000$37x2w9QFmK8WZcEnHDakG8$H+qvF0flZHj76QuMV/uxxSTv7YLLq+v9E1xY2KQxaVc=",
       "last_login": null,
-      "date_joined": "2026-07-07T00:00:00Z",
+      "date_joined": "__TODAY-45__T00:00:00Z",
       "is_superuser": true,
       "username": "lilian",
       "first_name": "",
