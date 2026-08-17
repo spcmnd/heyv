@@ -72,6 +72,9 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
     ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 20,
+    "PAGINATION_MAX_LIMIT": 100,
 }
 
 SIMPLE_JWT = {"ROTATE_REFRESH_TOKENS": True, "REFRESH_TOKEN_LIFETIME": timedelta(days=30), "UPDATE_LAST_LOGIN": True}
