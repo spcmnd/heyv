@@ -2,6 +2,12 @@
 
 Regular task manager
 
+> **Disclaimer:** this app is still in **alpha** and should not be used in production yet. The main reasons are the lack of features and the vibe coding that has been done on some parts to gain time. For future versions, the code will be carefully reviewed and refactored if needed.
+
+## Codebase status
+
+Parts of this codebase are "vibe coded" because of time constraints. Notable examples include the `TaskOccurrence` next occurrence calculation and most of the frontend code. This means the code can be sloppy and some edge cases may not be handled. These parts will be refactored as needed during the usage of the app and possibly in future versions.
+
 ## Local development
 
 ```bash
