@@ -55,9 +55,12 @@ class TaskOccurrenceCompleteAPIView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.status = TaskOccurrence.Status.COMPLETED
-        instance.completed_at = timezone.now()
-        instance.completed_by = request.user
-        instance.save(update_fields=("status", "completed_at", "completed_by", "updated_at"))
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(
+            status=TaskOccurrence.Status.COMPLETED,
+            completed_at=timezone.now(),
+            completed_by=request.user,
+        )
 
-        return Response(self.get_serializer(instance).data)
+        return Response(serializer.data)
