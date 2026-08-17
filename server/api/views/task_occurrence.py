@@ -33,6 +33,9 @@ class TaskOccurrenceListAPIView(generics.ListAPIView):
         if status is not None:
             queryset = queryset.filter(status=status)
 
+            if status == TaskOccurrence.Status.COMPLETED:
+                queryset = queryset.order_by("-completed_at")
+
         if date_from is not None:
             queryset = queryset.filter(scheduled_for__date__gte=date_from)
 
