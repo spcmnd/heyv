@@ -39,10 +39,19 @@ class HTTPService {
       const { refresh } = authService.getTokensFromStorage();
 
       if (!refresh) {
+        authService.clearTokens();
+        window.location.assign("/login");
         throw new Error("Refresh token is not present.");
       }
 
-      await authService.refresh(refresh);
+      try {
+        await authService.refresh(refresh);
+      } catch (error) {
+        authService.clearTokens();
+        window.location.assign("/login");
+        throw error;
+      }
+
       const { access } = authService.getTokensFromStorage();
       headers.set("Authorization", `Bearer ${access}`);
       response = await fetch(`${this.baseUrl}${config.url}`, requestInit);

@@ -1,11 +1,43 @@
 import "./App.scss";
 
+import { Spin } from "antd";
 import Sidebar from "./components/layout/Sidebar";
-import { ConfigProvider } from "antd";
-import { AuthProvider } from "./providers/AuthProvider";
-import { BrowserRouter, Routes, Route } from "react-router";
+import RequireAuth from "./components/layout/RequireAuth";
+import { App as AntdApp, ConfigProvider } from "antd";
+import { AuthProvider, useAuth } from "./providers/AuthProvider";
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./domains/task/pages/Tasks";
+import Login from "./pages/Login";
+
+function AppShell() {
+  return (
+    <div className="flex h-screen">
+      <Sidebar />
+      <main className="flex-1 px-12 py-10">
+        <Outlet />
+      </main>
+    </div>
+  );
+}
+
+function LoginRoute() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Login />;
+}
 
 function App() {
   return (
@@ -16,19 +48,21 @@ function App() {
         },
       }}
     >
-      <AuthProvider>
-        <BrowserRouter>
-          <div className="flex h-screen">
-            <Sidebar />
-            <main className="flex-1 px-12 py-10">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/tasks" element={<Tasks />} />
-              </Routes>
-            </main>
-          </div>
-        </BrowserRouter>
-      </AuthProvider>
+      <AntdApp>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<LoginRoute />} />
+              <Route element={<RequireAuth />}>
+                <Route element={<AppShell />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="tasks" element={<Tasks />} />
+                </Route>
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </AntdApp>
     </ConfigProvider>
   );
 }
