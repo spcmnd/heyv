@@ -1,8 +1,5 @@
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  DashboardSquare01Icon,
-  ClipboardListIcon,
-} from "@hugeicons/core-free-icons";
+import { DashboardSquare01Icon, ClipboardListIcon } from "@hugeicons/core-free-icons";
 import { NavLink } from "react-router";
 
 const navItems = [
@@ -23,11 +20,7 @@ function Navigation() {
                   : "text-secondary hover:bg-surface-hover hover:text-primary"
               }`}
             >
-              <HugeiconsIcon
-                icon={Icon}
-                size={24}
-                className={isActive ? "text-brand" : ""}
-              />
+              <HugeiconsIcon icon={Icon} size={24} className={isActive ? "text-brand" : ""} />
               {label}
             </div>
           )}

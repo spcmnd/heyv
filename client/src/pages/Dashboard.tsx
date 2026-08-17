@@ -1,25 +1,27 @@
+import { useState } from "react";
 import { Badge, Button } from "antd";
 import { useAuth } from "../providers/AuthProvider";
 import { Notification, Plus } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import CreateTaskTemplateModal from "../domains/task/components/CreateTaskTemplateModal.tsx";
 
 function Dashboard() {
   const { user } = useAuth();
+  const [createOpen, setCreateOpen] = useState(false);
 
   return (
     <>
       <header className="flex justify-between gap-4 items-start">
         <div className="flex gap-4 flex-col">
           <h1 className="text-4xl font-medium">Bonjour {user?.firstName} 👋</h1>
-          <p className="text-secondary">
-            Voici ce qui se passe aujourd'hui dans notre maison.
-          </p>
+          <p className="text-secondary">Voici ce qui se passe aujourd'hui dans notre maison.</p>
         </div>
         <div className="flex gap-8 items-center">
           <Button
             type="primary"
             size="large"
             icon={<HugeiconsIcon icon={Plus} size={16} />}
+            onClick={() => setCreateOpen(true)}
           >
             Ajouter
           </Button>
@@ -34,6 +36,8 @@ function Dashboard() {
           ></Button>
         </div>
       </header>
+
+      <CreateTaskTemplateModal open={createOpen} onClose={() => setCreateOpen(false)} />
     </>
   );
 }

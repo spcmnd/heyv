@@ -6,6 +6,12 @@ from app.models import TaskOccurrence, TaskTemplate
 
 class NestedTaskTemplateSerializer(serializers.ModelSerializer):
     room = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    categories = serializers.SlugRelatedField(
+        many=True,
+        slug_field="name",
+        source="category",
+        read_only=True,
+    )
 
     class Meta:
         model = TaskTemplate
@@ -16,6 +22,7 @@ class NestedTaskTemplateSerializer(serializers.ModelSerializer):
             "priority",
             "room",
             "estimated_duration_minutes",
+            "categories",
         )
 
 

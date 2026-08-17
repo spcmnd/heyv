@@ -50,6 +50,9 @@ class TaskOccurrenceService:
         anchor = cls._anchor(task_template)
 
         if rule is None:
+            if task_template.occurrences.exists():
+                return None
+
             return timezone.make_aware(datetime.combine(anchor.date(), MIDNIGHT))
 
         return RecurrenceService.next_recurrence_date(rule, anchor)
