@@ -5,12 +5,16 @@ from app.models import TaskOccurrence, TaskTemplate
 
 
 class NestedTaskTemplateSerializer(serializers.ModelSerializer):
+    room = serializers.SlugRelatedField(slug_field="name", read_only=True)
+
     class Meta:
         model = TaskTemplate
         fields = (
             "id",
             "title",
             "description",
+            "priority",
+            "room",
             "estimated_duration_minutes",
         )
 
@@ -35,7 +39,15 @@ class TaskOccurrenceSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
-        read_only_fields = ("task",)
+        read_only_fields = (
+            "task",
+            "scheduled_for",
+            "status",
+            "completed_at",
+            "completed_by",
+            "created_at",
+            "updated_at",
+        )
 
     def get_recurrence_label(self, obj):
         rule = obj.task_template.recurrence_rule
