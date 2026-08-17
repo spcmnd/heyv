@@ -3,6 +3,9 @@ export interface TokenCredentials {
   refresh?: string;
 }
 
+const ACCESS_TOKEN_KEY = "heyv_access";
+const REFRESH_TOKEN_KEY = "heyv_refresh";
+
 class AuthService {
   private baseUrl: string;
 
@@ -45,7 +48,7 @@ class AuthService {
     });
 
     if (!response.ok) {
-      // TODO: Redirect to login.
+      this.clearTokens();
       throw new Error("Session expired.");
     }
 
@@ -55,16 +58,21 @@ class AuthService {
     return;
   }
 
+  public clearTokens() {
+    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
+  }
+
   public getTokensFromStorage() {
     return {
-      access: localStorage.getItem("heyv_access"),
-      refresh: localStorage.getItem("heyv_refresh"),
+      access: localStorage.getItem(ACCESS_TOKEN_KEY),
+      refresh: localStorage.getItem(REFRESH_TOKEN_KEY),
     };
   }
 
   private saveTokens(access: string, refresh: string) {
-    localStorage.setItem("heyv_access", access);
-    localStorage.setItem("heyv_refresh", refresh);
+    localStorage.setItem(ACCESS_TOKEN_KEY, access);
+    localStorage.setItem(REFRESH_TOKEN_KEY, refresh);
   }
 }
 
