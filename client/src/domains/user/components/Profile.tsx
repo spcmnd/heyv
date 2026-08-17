@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  UserIcon,
-  ChevronDownIcon,
-  Logout01Icon,
-} from "@hugeicons/core-free-icons";
+import { UserIcon, ChevronDownIcon, Logout01Icon } from "@hugeicons/core-free-icons";
 import { useAuth } from "../../../providers/AuthProvider";
 
 function Profile() {
