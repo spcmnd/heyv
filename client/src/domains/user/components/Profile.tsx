@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   UserIcon,
@@ -10,15 +10,7 @@ import { useAuth } from "../../../providers/AuthProvider";
 function Profile() {
   const [open, setOpen] = useState(false);
 
-  const { user, getCurrentUser } = useAuth();
-
-  useEffect(() => {
-    const load = async () => {
-      await getCurrentUser();
-    };
-
-    load();
-  }, []);
+  const { user } = useAuth();
 
   return (
     <div className="relative">
