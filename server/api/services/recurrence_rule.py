@@ -1,41 +1,37 @@
 from app.models import RecurrenceRule
 
 WEEKDAY_LABELS = {
-    1: "Monday",
-    2: "Tuesday",
-    3: "Wednesday",
-    4: "Thursday",
-    5: "Friday",
-    6: "Saturday",
-    7: "Sunday",
+    1: "lundi",
+    2: "mardi",
+    3: "mercredi",
+    4: "jeudi",
+    5: "vendredi",
+    6: "samedi",
+    7: "dimanche",
 }
 
 MONTH_LABELS = {
-    1: "January",
-    2: "February",
-    3: "March",
-    4: "April",
-    5: "May",
-    6: "June",
-    7: "July",
-    8: "August",
-    9: "September",
-    10: "October",
-    11: "November",
-    12: "December",
+    1: "janvier",
+    2: "février",
+    3: "mars",
+    4: "avril",
+    5: "mai",
+    6: "juin",
+    7: "juillet",
+    8: "août",
+    9: "septembre",
+    10: "octobre",
+    11: "novembre",
+    12: "décembre",
 }
 
-WEEK_POSITION_LABELS = {-1: "last", 1: "first", 2: "second", 3: "third", 4: "fourth"}
+WEEK_POSITION_LABELS = {-1: "dernier", 1: "premier", 2: "deuxième", 3: "troisième", 4: "quatrième"}
 
 
-def _ordinal(number):
-    """Return the number with its English ordinal suffix, e.g. 1 -> "1st"."""
+def _day_label(day):
+    """Return the day with its French ordinal form, e.g. 1 -> "1er"."""
 
-    if number % 100 in range(10, 21):
-        suffix = "th"
-    else:
-        suffix = {1: "st", 2: "nd", 3: "rd"}.get(number % 10, "th")
-    return f"{number}{suffix}"
+    return "1er" if day == 1 else str(day)
 
 
 class RecurrenceRuleService:
@@ -50,12 +46,21 @@ class RecurrenceRuleService:
 
     @classmethod
     def _build_base(cls, rule: RecurrenceRule):
-        singular, plural = cls._frequency_units(rule.frequency)
+        prefix = "Toutes" if rule.frequency == RecurrenceRule.Frequency.WEEKLY else "Tous"
 
         if rule.interval == 1:
-            return f"Every {singular}"
+            return f"{prefix} les {cls._frequency_unit(rule.frequency)}"
 
-        return f"Every {rule.interval} {plural}"
+        return f"{prefix} les {rule.interval} {cls._frequency_unit(rule.frequency)}"
+
+    @staticmethod
+    def _frequency_unit(frequency):
+        return {
+            RecurrenceRule.Frequency.DAILY: "jours",
+            RecurrenceRule.Frequency.WEEKLY: "semaines",
+            RecurrenceRule.Frequency.MONTHLY: "mois",
+            RecurrenceRule.Frequency.YEARLY: "ans",
+        }[frequency]
 
     @classmethod
     def _build_detail(cls, rule: RecurrenceRule):
@@ -67,33 +72,24 @@ class RecurrenceRuleService:
         }[rule.frequency](rule)
 
     @staticmethod
-    def _frequency_units(frequency):
-        return {
-            RecurrenceRule.Frequency.DAILY: ("day", "days"),
-            RecurrenceRule.Frequency.WEEKLY: ("week", "weeks"),
-            RecurrenceRule.Frequency.MONTHLY: ("month", "months"),
-            RecurrenceRule.Frequency.YEARLY: ("year", "years"),
-        }[frequency]
-
-    @staticmethod
     def _daily_detail(rule):
         return ""
 
     @classmethod
     def _weekly_detail(cls, rule):
-        if rule.weekdays:
-            return f"on {cls._join_names(cls._weekday_names(rule.weekdays))}"
+        if not rule.weekdays:
+            return ""
 
-        return ""
+        return f"le {cls._join_names(cls._weekday_names(rule.weekdays))}"
 
     @classmethod
     def _monthly_detail(cls, rule):
         if rule.day_of_month:
-            return f"on the {_ordinal(rule.day_of_month)}"
+            return f"le {_day_label(rule.day_of_month)}"
 
         if rule.week_position is not None and rule.weekdays:
             position = WEEK_POSITION_LABELS[rule.week_position]
-            return f"on the {position} {cls._join_names(cls._weekday_names(rule.weekdays))}"
+            return f"le {position} {cls._join_names(cls._weekday_names(rule.weekdays))}"
 
         return ""
 
@@ -103,9 +99,9 @@ class RecurrenceRuleService:
             return ""
 
         if rule.day_of_month:
-            return f"on {MONTH_LABELS[rule.month]} {_ordinal(rule.day_of_month)}"
+            return f"le {_day_label(rule.day_of_month)} {MONTH_LABELS[rule.month]}"
 
-        return f"in {MONTH_LABELS[rule.month]}"
+        return f"en {MONTH_LABELS[rule.month]}"
 
     @staticmethod
     def _weekday_names(weekdays):
@@ -116,4 +112,4 @@ class RecurrenceRuleService:
         if len(names) == 1:
             return names[0]
 
-        return f"{', '.join(names[:-1])} and {names[-1]}"
+        return f"{', '.join(names[:-1])} et {names[-1]}"
