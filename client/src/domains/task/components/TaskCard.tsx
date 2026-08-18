@@ -3,6 +3,7 @@ import { Edit01Icon, MoreHorizontal, Trash } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Button, Card, Dropdown, Radio, Spin, Tag, type MenuProps } from "antd";
 import type { TaskOccurrence, TaskPriority } from "../types/taskOccurrence.ts";
+import { formatDate, getDaysDiff } from "../utils/dates.ts";
 
 const PRIORITY_LABELS: Record<TaskPriority, string> = {
   LOW: "Basse",
@@ -31,23 +32,10 @@ const formatDuration = (minutes: number): string => {
   return `${hours} h ${remainingMinutes}`;
 };
 
-const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-const formatDate = (date: Date): string => {
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  return `${day}.${month}.${date.getFullYear()}`;
-};
-
 const formatScheduleLabel = (scheduledFor: string): string => {
   const scheduled = new Date(scheduledFor);
-  const today = new Date();
   const dateLabel = formatDate(scheduled);
-
-  const daysDiff = Math.round(
-    (startOfDay(scheduled).getTime() - startOfDay(today).getTime()) / (24 * 60 * 60 * 1000),
-  );
+  const daysDiff = getDaysDiff(scheduled);
 
   if (daysDiff < 0) {
     return `${dateLabel} · il y a ${-daysDiff} ${-daysDiff > 1 ? "jours" : "jour"}`;

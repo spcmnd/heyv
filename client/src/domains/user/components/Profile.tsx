@@ -19,7 +19,7 @@ function Profile() {
         </div>
 
         <div className="flex-1 text-left">
-          <p className="text-sm font-medium text-primary">{user?.firstName}</p>
+          <p className="text-sm font-medium text-primary">{user?.firstName ?? user?.username}</p>
           <p className="text-xs text-tertiary">Voir le profil</p>
         </div>
 

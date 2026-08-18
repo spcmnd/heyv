@@ -4,6 +4,7 @@ import { useAuth } from "../providers/AuthProvider";
 import { Notification, Plus } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import CreateTaskTemplateModal from "../domains/task/components/CreateTaskTemplateModal.tsx";
+import DashboardStats from "../domains/task/components/DashboardStats.tsx";
 
 function Dashboard() {
   const { user } = useAuth();
@@ -36,6 +37,8 @@ function Dashboard() {
           ></Button>
         </div>
       </header>
+
+      <DashboardStats />
 
       <CreateTaskTemplateModal open={createOpen} onClose={() => setCreateOpen(false)} />
     </>

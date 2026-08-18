@@ -1,4 +1,5 @@
 import type { TaskOccurrence } from "../types/taskOccurrence.ts";
+import { getDaysDiff } from "./dates.ts";
 
 export type TimeCategoryKey = "LATE" | "TODAY" | "TOMORROW" | "SOON";
 
@@ -18,14 +19,7 @@ export const TIME_CATEGORY_LABELS: Record<TimeCategoryKey, string> = {
 };
 
 const getTimeCategoryKey = (scheduledFor: string): TimeCategoryKey => {
-  const scheduled = new Date(scheduledFor);
-  const today = new Date();
-
-  const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-  const daysDiff = Math.round(
-    (startOfDay(scheduled).getTime() - startOfDay(today).getTime()) / (24 * 60 * 60 * 1000),
-  );
+  const daysDiff = getDaysDiff(new Date(scheduledFor));
 
   if (daysDiff < 0) {
     return "LATE";
