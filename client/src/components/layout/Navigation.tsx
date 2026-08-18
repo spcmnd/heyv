@@ -1,11 +1,6 @@
 import { HugeiconsIcon } from "@hugeicons/react";
-import { DashboardSquare01Icon, ClipboardListIcon } from "@hugeicons/core-free-icons";
 import { NavLink } from "react-router";
-
-const navItems = [
-  { label: "Dashboard", icon: DashboardSquare01Icon, to: "/" },
-  { label: "Tâches", icon: ClipboardListIcon, to: "/tasks" },
-];
+import { navItems } from "./navigationItems.ts";
 
 function Navigation() {
   return (

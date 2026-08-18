@@ -84,9 +84,9 @@ function Tasks() {
 
   return (
     <>
-      <header className="flex justify-between gap-4">
+      <header className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
         <div className="flex gap-4 flex-col">
-          <h1 className="text-4xl font-medium">Tâches</h1>
+          <h1 className="text-3xl sm:text-4xl font-medium">Tâches</h1>
         </div>
         <div className="flex gap-8 items-center">
           <Button

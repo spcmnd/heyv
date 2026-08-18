@@ -2,6 +2,7 @@ import "./App.scss";
 
 import { Spin } from "antd";
 import Sidebar from "./components/layout/Sidebar";
+import BottomNav from "./components/layout/BottomNav";
 import RequireAuth from "./components/layout/RequireAuth";
 import { App as AntdApp, ConfigProvider } from "antd";
 import { AuthProvider, useAuth } from "./providers/AuthProvider";
@@ -12,11 +13,12 @@ import Login from "./pages/Login";
 
 function AppShell() {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen flex-col md:flex-row">
       <Sidebar />
-      <main className="flex-1 px-12 py-10">
+      <main className="flex-1 overflow-y-auto px-4 py-6 pb-28 md:px-12 md:py-10 md:pb-10">
         <Outlet />
       </main>
+      <BottomNav />
     </div>
   );
 }
