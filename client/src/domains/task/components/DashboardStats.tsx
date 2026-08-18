@@ -1,46 +1,7 @@
 import { useState } from "react";
 import { App, Card, Listy, Radio, Skeleton, Spin, Statistic, Tag } from "antd";
 import { useDashboardStats } from "../hooks/useDashboardStats.ts";
-
-const DAY_IN_MS = 24 * 60 * 60 * 1000;
-
-const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-const formatDate = (date: string): string => {
-  const parsed = new Date(date);
-  const day = String(parsed.getDate()).padStart(2, "0");
-  const month = String(parsed.getMonth() + 1).padStart(2, "0");
-
-  return `${day}.${month}.${parsed.getFullYear()}`;
-};
-
-const formatDateLabel = (date: string): string => {
-  const parsed = startOfDay(new Date(date));
-  const today = startOfDay(new Date());
-
-  const daysDiff = Math.round((parsed.getTime() - today.getTime()) / DAY_IN_MS);
-
-  if (daysDiff === 0) {
-    return "Aujourd'hui";
-  }
-
-  if (daysDiff === -1) {
-    return "Hier";
-  }
-
-  if (daysDiff === 1) {
-    return "Demain";
-  }
-
-  return formatDate(date);
-};
-
-const isLate = (scheduledFor: string): boolean => {
-  const scheduled = startOfDay(new Date(scheduledFor));
-  const today = startOfDay(new Date());
-
-  return scheduled.getTime() < today.getTime();
-};
+import { formatDateLabel, isLate } from "../utils/dates.ts";
 
 function DashboardStats() {
   const { message } = App.useApp();

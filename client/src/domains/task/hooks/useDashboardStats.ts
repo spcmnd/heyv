@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { completeTaskOccurrence, getFilteredTaskOccurrences } from "../taskOccurrenceService.ts";
 import type { TaskOccurrence } from "../types/taskOccurrence.ts";
+import { startOfDay } from "../utils/dates.ts";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
-
-const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
 const toISODate = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, "0");
