@@ -11,12 +11,12 @@ function Dashboard() {
 
   return (
     <>
-      <header className="flex justify-between gap-4 items-start">
+      <header className="flex flex-col gap-4 items-start sm:flex-row sm:justify-between sm:items-start">
         <div className="flex gap-4 flex-col">
-          <h1 className="text-4xl font-medium">Bonjour {user?.firstName} 👋</h1>
+          <h1 className="text-3xl sm:text-4xl font-medium">Bonjour {user?.firstName} 👋</h1>
           <p className="text-secondary">Voici ce qui se passe aujourd'hui dans notre maison.</p>
         </div>
-        <div className="flex gap-8 items-center">
+        <div className="flex gap-8 items-center self-end sm:self-auto">
           <Button
             type="primary"
             size="large"

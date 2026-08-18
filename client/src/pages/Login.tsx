@@ -30,13 +30,13 @@ function Login() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
+    <div className="flex min-h-screen flex-col items-center justify-center px-6">
       <img src={heyvLogo} className="mb-8 h-12" />
       <Form<LoginFormValues>
         name="login"
         layout="vertical"
         onFinish={handleFinish}
-        className="w-96"
+        className="w-full max-w-96"
         requiredMark={false}
       >
         <Form.Item

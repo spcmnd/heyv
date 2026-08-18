@@ -4,7 +4,7 @@ import Profile from "../../domains/user/components/Profile";
 
 function Sidebar() {
   return (
-    <aside className="h-full py-8 px-4 bg-background w-64 flex flex-col border-r-1 border-border">
+    <aside className="hidden md:flex h-full py-8 px-4 bg-background w-64 flex-col border-r-1 border-border">
       <img src={heyvLogo} className="h-12 self-start pl-4" />
       <div className="flex-1">
         <Navigation />
