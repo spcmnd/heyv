@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { App, Card, List, Radio, Skeleton, Spin, Statistic, Tag } from "antd";
+import { App, Card, Listy, Radio, Skeleton, Spin, Statistic, Tag } from "antd";
 import { useDashboardStats } from "../hooks/useDashboardStats.ts";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
@@ -87,17 +87,19 @@ function DashboardStats() {
         <Card title="Dernières tâches terminées">
           {loading ? (
             <Skeleton active paragraph={{ rows: 3 }} />
+          ) : stats.recentCompleted.length === 0 ? (
+            <p className="text-secondary">Aucune tâche terminée.</p>
           ) : (
-            <List
-              dataSource={stats.recentCompleted}
-              locale={{ emptyText: "Aucune tâche terminée." }}
-              renderItem={(occurrence) => (
-                <List.Item className="flex w-full! items-center! justify-between! gap-2!">
+            <Listy
+              items={stats.recentCompleted}
+              rowKey="id"
+              itemRender={(occurrence) => (
+                <div className="flex items-center justify-between gap-2 py-2">
                   <span className="min-w-0 truncate">{occurrence.task.title}</span>
                   <Tag color="green">
                     {formatDateLabel(occurrence.completed_at ?? occurrence.scheduled_for)}
                   </Tag>
-                </List.Item>
+                </div>
               )}
             />
           )}
@@ -106,15 +108,17 @@ function DashboardStats() {
         <Card title="Prochaines tâches">
           {loading ? (
             <Skeleton active paragraph={{ rows: 3 }} />
+          ) : stats.nextTasks.length === 0 ? (
+            <p className="text-secondary">Aucune tâche à venir.</p>
           ) : (
-            <List
-              dataSource={stats.nextTasks}
-              locale={{ emptyText: "Aucune tâche à venir." }}
-              renderItem={(occurrence) => {
+            <Listy
+              items={stats.nextTasks}
+              rowKey="id"
+              itemRender={(occurrence) => {
                 const late = isLate(occurrence.scheduled_for);
 
                 return (
-                  <List.Item className="flex w-full! items-center! justify-between! gap-2!">
+                  <div className="flex items-center justify-between gap-2 py-2">
                     {pendingId === occurrence.id ? (
                       <Spin size="small" />
                     ) : (
@@ -126,7 +130,7 @@ function DashboardStats() {
                     <Tag color={late ? "red" : "purple"}>
                       {late ? "En retard" : formatDateLabel(occurrence.scheduled_for)}
                     </Tag>
-                  </List.Item>
+                  </div>
                 );
               }}
             />
