@@ -3,6 +3,7 @@
 ## General
 
 - Do **not** create tests. This project does not use automated tests for now.
+- Before installing a new version of a package (client or server), **always** ask the user for confirmation.
 
 ## Client (`client/`)
 
