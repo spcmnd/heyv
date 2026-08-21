@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { App, Card, Listy, Radio, Skeleton, Spin, Statistic, Tag } from "antd";
+import { App, Card, Checkbox, Listy, Skeleton, Spin, Statistic, Tag } from "antd";
 import { useDashboardStats } from "../hooks/useDashboardStats.ts";
 import { formatDateLabel, isLate } from "../utils/dates.ts";
 
@@ -33,7 +33,7 @@ function DashboardStats() {
 
           {!loading &&
             (stats.lateCount > 0 ? (
-              <p className="mt-2 text-error">{stats.lateCount} en retard</p>
+              <p className="mt-2 text-error-dark">{stats.lateCount} en retard</p>
             ) : (
               <p className="mt-2 text-secondary">Aucune tâche en retard</p>
             ))}
@@ -83,9 +83,9 @@ function DashboardStats() {
                     {pendingId === occurrence.id ? (
                       <Spin size="small" />
                     ) : (
-                      <Radio checked={false} onChange={() => handleComplete(occurrence.id)} />
+                      <Checkbox onChange={() => handleComplete(occurrence.id)} />
                     )}
-                    <span className={`min-w-0 flex-1 truncate ${late ? "text-error" : ""}`}>
+                    <span className={`min-w-0 flex-1 truncate ${late ? "text-error-dark" : ""}`}>
                       {occurrence.task.title}
                     </span>
                     <Tag color={late ? "red" : "purple"}>

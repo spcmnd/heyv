@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Edit01Icon, MoreHorizontal, Trash } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Button, Card, Dropdown, Radio, Spin, Tag, type MenuProps } from "antd";
+import { Button, Card, Checkbox, Dropdown, Spin, Tag, type MenuProps } from "antd";
 import type { TaskOccurrence, TaskPriority } from "../types/taskOccurrence.ts";
 import { formatDate, getDaysDiff } from "../utils/dates.ts";
 
@@ -66,10 +66,9 @@ interface TaskCardProps {
 function TaskCard({ occurrence, onComplete, onDelete, onUpdate }: TaskCardProps) {
   const [pending, setPending] = useState(false);
   const { task } = occurrence;
-  const completed = occurrence.status === "COMPLETED";
 
   const handleComplete = async () => {
-    if (completed || pending) {
+    if (pending) {
       return;
     }
 
@@ -104,20 +103,12 @@ function TaskCard({ occurrence, onComplete, onDelete, onUpdate }: TaskCardProps)
   return (
     <Card className="w-full! cursor-default! hover:shadow-none!">
       <div className="flex items-start gap-4">
-        {pending ? (
-          <Spin size="small" className="mt-1" />
-        ) : (
-          <Radio checked={completed} disabled={completed} onChange={handleComplete} />
-        )}
+        {pending ? <Spin size="small" className="mt-1" /> : <Checkbox onChange={handleComplete} />}
 
         <div className="flex flex-1 flex-col gap-2">
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-wrap items-center gap-2">
-              <span
-                className={`text-base font-medium ${completed ? "text-secondary line-through" : ""}`}
-              >
-                {task.title}
-              </span>
+              <span className="text-base font-medium">{task.title}</span>
 
               {task.estimated_duration_minutes !== null && (
                 <Tag>{formatDuration(task.estimated_duration_minutes)}</Tag>
