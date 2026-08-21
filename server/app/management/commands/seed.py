@@ -4,6 +4,7 @@ import tempfile
 from datetime import timedelta
 from pathlib import Path
 
+from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
@@ -34,6 +35,9 @@ class Command(BaseCommand):
         parser.add_argument("fixture_set", type=str, help='Fixture set to load (e.g. "dev")')
 
     def handle(self, *args, **options):
+        if not settings.DEBUG:
+            raise CommandError("Seeding is only allowed when DEBUG is enabled (local development).")
+
         fixture_set = options["fixture_set"]
 
         fixtures_dir = FIXTURES_DIR / fixture_set
