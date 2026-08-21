@@ -7,14 +7,14 @@ from app.services.task_occurrences import TaskOccurrenceService
 
 @receiver(post_save, sender=TaskTemplate)
 def sync_task_template_occurrences(sender, instance, **kwargs):
-    """Create or purge occurrences when a task template is created, activated, or restored."""
+    """Create, purge, or realign occurrences when a task template is created, activated, restored, or updated."""
 
     if not instance.is_active:
         TaskOccurrenceService.purge_pending(instance)
 
         return
 
-    TaskOccurrenceService.ensure_next_occurrence(instance)
+    TaskOccurrenceService.ensure_next_occurrence(instance, reschedule=True)
 
 
 @receiver(post_save, sender=RecurrenceRule)
