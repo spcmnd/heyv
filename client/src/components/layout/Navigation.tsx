@@ -11,7 +11,7 @@ function Navigation() {
             <div
               className={`flex items-center gap-4 w-full px-4 py-3 rounded-lg text-md font-medium transition-colors hover:cursor-pointer ${
                 isActive
-                  ? "bg-primary-light"
+                  ? "bg-brand-light"
                   : "text-secondary hover:bg-surface-hover hover:text-primary"
               }`}
             >

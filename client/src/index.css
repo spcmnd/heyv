@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Geomini";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/geomini/geomini-latin.woff2") format("woff2");
+}
+
 @theme {
   --font-sans: "Geomini", sans-serif;
+
+  --color-background: #f8f7f4;
+  --color-surface: #ffffff;
+  --color-surface-hover: #fafaf9;
+
+  --color-line: #e8e5e0;
+
+  --color-primary: #2c2c2c;
+  --color-secondary: #646464;
+  --color-tertiary: #949494;
+
+  --color-brand: #46566b;
+  --color-brand-light: #e8edf6;
+
+  --color-error-dark: #8d3732;
+
+  --color-beige: #dcc29b;
 }
