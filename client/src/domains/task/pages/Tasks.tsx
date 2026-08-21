@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Plus } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { App, Button, Empty, Spin } from "antd";
@@ -10,11 +10,11 @@ import type { TaskOccurrenceGroup } from "../utils/timeCategories.ts";
 
 function Tasks() {
   const { message, modal } = App.useApp();
-  const { todos, loading, complete, remove, reload } = useTaskOccurrences();
+  const { todos, loading, complete, remove, refresh } = useTaskOccurrences();
   const [createOpen, setCreateOpen] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
 
-  const todoGroups = useMemo(() => groupTaskOccurrences(todos), [todos]);
+  const todoGroups = groupTaskOccurrences(todos);
 
   const handleComplete = async (id: number) => {
     try {
@@ -103,13 +103,11 @@ function Tasks() {
       <CreateTaskTemplateModal
         open={createOpen || editingTaskId !== null}
         taskId={editingTaskId}
-        onSuccess={() => reload()}
+        onSuccess={() => refresh()}
         onClose={handleModalClose}
       />
 
-      <div className="mt-4">
-        {renderGroups(todoGroups, "Aucune tâche à faire. Profitez-en !")}
-      </div>
+      <div className="mt-4">{renderGroups(todoGroups, "Aucune tâche à faire. Profitez-en !")}</div>
     </>
   );
 }

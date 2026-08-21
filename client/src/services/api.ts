@@ -1,22 +1,48 @@
 import authService from "./auth.ts";
+import { API_URL, notifyUnauthorized } from "./config.ts";
 
-class HTTPService {
-  private baseUrl: string;
+export class ApiError extends Error {
+  public readonly status: number;
+  public readonly details?: unknown;
 
-  constructor() {
-    const apiUrl = import.meta.env.VITE_API_URL;
+  constructor(status: number, message: string, details?: unknown) {
+    super(message);
+    this.status = status;
+    this.details = details;
+  }
+}
 
-    if (!apiUrl) {
-      throw new Error("API URL not provided.");
-    }
+type Method = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 
-    this.baseUrl = apiUrl;
+let refreshPromise: Promise<void> | null = null;
+
+const refreshTokens = (): Promise<void> => {
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      const { refresh } = authService.getTokensFromStorage();
+
+      if (!refresh) {
+        throw new Error("Refresh token is not present.");
+      }
+
+      await authService.refresh(refresh);
+    })()
+      .catch((error) => {
+        authService.clearTokens();
+        notifyUnauthorized();
+        throw error;
+      })
+      .finally(() => {
+        refreshPromise = null;
+      });
   }
 
-  public async request<T>(config: { url: string; method: string; body?: T }) {
-    const headers = new Headers({
-      "Content-Type": "application/json",
-    });
+  return refreshPromise;
+};
+
+class HTTPService {
+  private async request<T>(url: string, method: Method, body?: T): Promise<unknown> {
+    const headers = new Headers();
 
     const { access } = authService.getTokensFromStorage();
 
@@ -24,41 +50,65 @@ class HTTPService {
       headers.set("Authorization", `Bearer ${access}`);
     }
 
-    const requestInit: RequestInit = {
-      method: config.method || "GET",
-      headers,
-    };
+    const requestInit: RequestInit = { method, headers };
 
-    if (config.body) {
-      requestInit.body = JSON.stringify(config.body);
+    if (body !== undefined) {
+      headers.set("Content-Type", "application/json");
+      requestInit.body = JSON.stringify(body);
     }
 
-    let response = await fetch(`${this.baseUrl}${config.url}`, requestInit);
+    let response = await fetch(`${API_URL}${url}`, requestInit);
 
-    if (response.status === 401) {
-      const { refresh } = authService.getTokensFromStorage();
-
-      if (!refresh) {
-        authService.clearTokens();
-        window.location.assign("/login");
-        throw new Error("Refresh token is not present.");
-      }
-
+    if (response.status === 401 && !url.startsWith("/auth/")) {
       try {
-        await authService.refresh(refresh);
-      } catch (error) {
-        authService.clearTokens();
-        window.location.assign("/login");
-        throw error;
+        await refreshTokens();
+      } catch {
+        throw new ApiError(401, "Session expired.");
       }
 
-      const { access } = authService.getTokensFromStorage();
-      headers.set("Authorization", `Bearer ${access}`);
-      response = await fetch(`${this.baseUrl}${config.url}`, requestInit);
+      const { access: newAccess } = authService.getTokensFromStorage();
+
+      if (newAccess) {
+        headers.set("Authorization", `Bearer ${newAccess}`);
+      }
+
+      response = await fetch(`${API_URL}${url}`, requestInit);
     }
 
-    return response;
+    if (!response.ok) {
+      throw new ApiError(
+        response.status,
+        `Request to ${url} failed.`,
+        await parseErrorDetails(response),
+      );
+    }
+
+    if (response.status === 204) {
+      return undefined;
+    }
+
+    return response.json();
+  }
+
+  public get<Response>(url: string): Promise<Response> {
+    return this.request(url, "GET") as Promise<Response>;
+  }
+
+  public post<Body, Response = undefined>(url: string, body?: Body): Promise<Response> {
+    return this.request(url, "POST", body) as Promise<Response>;
+  }
+
+  public patch<Body, Response = undefined>(url: string, body: Body): Promise<Response> {
+    return this.request(url, "PATCH", body) as Promise<Response>;
   }
 }
+
+const parseErrorDetails = async (response: Response): Promise<unknown> => {
+  try {
+    return await response.json();
+  } catch {
+    return undefined;
+  }
+};
 
 export default new HTTPService();

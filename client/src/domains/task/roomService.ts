@@ -9,16 +9,7 @@ export interface Room {
 }
 
 export const getRooms = async (): Promise<Room[]> => {
-  const response = await httpService.request({
-    url: "/rooms/?limit=100",
-    method: "GET",
-  });
-
-  if (!response.ok) {
-    throw new Error("Rooms cannot be retrieved.");
-  }
-
-  const data: PaginatedResponse<Room> = await response.json();
+  const data = await httpService.get<PaginatedResponse<Room>>("/rooms/?limit=100");
 
   return data.results;
 };

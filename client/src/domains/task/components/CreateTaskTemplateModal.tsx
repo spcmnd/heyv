@@ -18,16 +18,16 @@ import {
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { useTaskTemplates } from "../hooks/useTaskTemplates.ts";
+import { ApiError } from "../../../services/api.ts";
+import { createTaskTemplate, getTaskTemplate, updateTaskTemplate } from "../taskTemplateService.ts";
 import type {
   RecurrenceFrequency,
   TaskTemplate,
+  CreateTaskTemplateInput,
 } from "../types/taskTemplate.ts";
-import type { CreateTaskTemplateInput } from "../types/taskTemplate.ts";
 import type { TaskPriority } from "../types/taskOccurrence.ts";
 
-type RecurrenceRuleInput = NonNullable<
-  CreateTaskTemplateInput["recurrence_rule"]
->;
+type RecurrenceRuleInput = NonNullable<CreateTaskTemplateInput["recurrence_rule"]>;
 type MonthlyMode = "day" | "position";
 
 interface CreateTaskTemplateModalProps {
@@ -105,6 +105,14 @@ const WEEK_POSITION_OPTIONS = [
   { value: 4, label: "Quatrième" },
 ];
 
+const getErrorDetails = (error: unknown): unknown => {
+  if (error instanceof ApiError) {
+    return error.details;
+  }
+
+  return undefined;
+};
+
 const flattenErrors = (details: unknown): string => {
   if (details === null || details === undefined) {
     return "une erreur est survenue.";
@@ -121,9 +129,7 @@ const flattenErrors = (details: unknown): string => {
   if (typeof details === "object") {
     return Object.entries(details)
       .map(([key, value]) =>
-        key === "non_field_errors"
-          ? flattenErrors(value)
-          : `${key} : ${flattenErrors(value)}`,
+        key === "non_field_errors" ? flattenErrors(value) : `${key} : ${flattenErrors(value)}`,
       )
       .join(" / ");
   }
@@ -131,15 +137,12 @@ const flattenErrors = (details: unknown): string => {
   return String(details);
 };
 
-const buildInitialValues = (
-  taskTemplate: TaskTemplate,
-): TaskTemplateFormValues => {
+const buildInitialValues = (taskTemplate: TaskTemplate): TaskTemplateFormValues => {
   const values: TaskTemplateFormValues = {
     title: taskTemplate.title,
     description: taskTemplate.description ?? undefined,
     priority: taskTemplate.priority,
-    estimated_duration_minutes:
-      taskTemplate.estimated_duration_minutes ?? undefined,
+    estimated_duration_minutes: taskTemplate.estimated_duration_minutes ?? undefined,
     room: taskTemplate.room ?? undefined,
     category: taskTemplate.category,
     recurrence_enabled: Boolean(taskTemplate.recurrence_rule),
@@ -189,14 +192,11 @@ function CreateTaskTemplateModal({
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
   const { message } = App.useApp();
-  const { rooms, categories, referenceLoading, create, get, update } =
-    useTaskTemplates();
+  const { rooms, categories, referenceLoading } = useTaskTemplates();
 
   const recurrenceEnabled = Form.useWatch("recurrence_enabled", form);
-  const frequency = Form.useWatch("frequency", form) as
-    RecurrenceFrequency | undefined;
-  const monthlyMode = Form.useWatch("monthly_mode", form) as
-    MonthlyMode | undefined;
+  const frequency = Form.useWatch("frequency", form) as RecurrenceFrequency | undefined;
+  const monthlyMode = Form.useWatch("monthly_mode", form) as MonthlyMode | undefined;
 
   useEffect(() => {
     if (!open) {
@@ -211,7 +211,7 @@ function CreateTaskTemplateModal({
     let cancelled = false;
     setLoading(true);
 
-    get(taskId)
+    getTaskTemplate(taskId)
       .then((taskTemplate) => {
         if (!cancelled) {
           form.setFieldsValue(buildInitialValues(taskTemplate));
@@ -232,11 +232,9 @@ function CreateTaskTemplateModal({
     return () => {
       cancelled = true;
     };
-  }, [open, taskId, form, get, onClose, message]);
+  }, [open, taskId, form, onClose, message]);
 
-  const buildRecurrenceRule = (
-    values: TaskTemplateFormValues,
-  ): RecurrenceRuleInput | undefined => {
+  const buildRecurrenceRule = (values: TaskTemplateFormValues): RecurrenceRuleInput | undefined => {
     if (!values.frequency) {
       return undefined;
     }
@@ -271,9 +269,7 @@ function CreateTaskTemplateModal({
     return rule;
   };
 
-  const buildInput = (
-    values: TaskTemplateFormValues,
-  ): CreateTaskTemplateInput => {
+  const buildInput = (values: TaskTemplateFormValues): CreateTaskTemplateInput => {
     const input: CreateTaskTemplateInput = {
       title: values.title,
       priority: values.priority,
@@ -313,21 +309,20 @@ function CreateTaskTemplateModal({
       const input = buildInput(values);
 
       if (taskId) {
-        await update(taskId, input);
+        await updateTaskTemplate(taskId, input);
         message.success("Tâche modifiée.");
       } else {
-        await create(input);
+        await createTaskTemplate(input);
         message.success("Modèle de tâche créé.");
       }
 
       onSuccess?.();
       onClose();
     } catch (error) {
-      const details = (error as Error & { details?: unknown }).details;
       message.error(
         taskId
-          ? `Impossible de modifier la tâche : ${flattenErrors(details)}`
-          : `Impossible de créer le modèle de tâche : ${flattenErrors(details)}`,
+          ? `Impossible de modifier la tâche : ${flattenErrors(getErrorDetails(error))}`
+          : `Impossible de créer le modèle de tâche : ${flattenErrors(getErrorDetails(error))}`,
       );
     } finally {
       setSubmitting(false);
@@ -343,9 +338,7 @@ function CreateTaskTemplateModal({
   return (
     <Modal
       open={open}
-      title={
-        taskId ? "Modifier le modèle de tâche" : "Créer un modèle de tâche"
-      }
+      title={taskId ? "Modifier le modèle de tâche" : "Créer un modèle de tâche"}
       okText={taskId ? "Modifier" : "Créer"}
       cancelText="Annuler"
       onOk={() => form.submit()}
@@ -375,10 +368,7 @@ function CreateTaskTemplateModal({
           </Form.Item>
 
           <Form.Item label="Description" name="description">
-            <Input.TextArea
-              rows={3}
-              placeholder="Décrivez la tâche en quelques mots."
-            />
+            <Input.TextArea rows={3} placeholder="Décrivez la tâche en quelques mots." />
           </Form.Item>
 
           <Row gutter={16}>
@@ -388,16 +378,8 @@ function CreateTaskTemplateModal({
               </Form.Item>
             </Col>
             <Col xs={24} sm={12}>
-              <Form.Item
-                label="Durée estimée"
-                name="estimated_duration_minutes"
-              >
-                <InputNumber
-                  min={1}
-                  addonAfter="min"
-                  placeholder="Ex. : 30"
-                  className="w-full"
-                />
+              <Form.Item label="Durée estimée" name="estimated_duration_minutes">
+                <InputNumber min={1} addonAfter="min" placeholder="Ex. : 30" className="w-full" />
               </Form.Item>
             </Col>
           </Row>
@@ -452,19 +434,12 @@ function CreateTaskTemplateModal({
                       },
                     ]}
                   >
-                    <Select
-                      options={FREQUENCY_OPTIONS}
-                      placeholder="Choisissez une fréquence"
-                    />
+                    <Select options={FREQUENCY_OPTIONS} placeholder="Choisissez une fréquence" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12}>
                   <Form.Item label="Intervalle" name="interval">
-                    <InputNumber
-                      min={1}
-                      addonAfter="période(s)"
-                      className="w-full"
-                    />
+                    <InputNumber min={1} addonAfter="période(s)" className="w-full" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -508,16 +483,9 @@ function CreateTaskTemplateModal({
                     <Form.Item
                       label="Jour du mois"
                       name="day_of_month"
-                      rules={[
-                        { required: true, message: "Veuillez saisir un jour." },
-                      ]}
+                      rules={[{ required: true, message: "Veuillez saisir un jour." }]}
                     >
-                      <InputNumber
-                        min={1}
-                        max={31}
-                        className="w-full"
-                        placeholder="Ex. : 15"
-                      />
+                      <InputNumber min={1} max={31} className="w-full" placeholder="Ex. : 15" />
                     </Form.Item>
                   )}
 
@@ -533,10 +501,7 @@ function CreateTaskTemplateModal({
                           },
                         ]}
                       >
-                        <Select
-                          options={WEEK_POSITION_OPTIONS}
-                          placeholder="Ex. : Dernier"
-                        />
+                        <Select options={WEEK_POSITION_OPTIONS} placeholder="Ex. : Dernier" />
                       </Form.Item>
 
                       <Form.Item
@@ -574,23 +539,12 @@ function CreateTaskTemplateModal({
                           },
                         ]}
                       >
-                        <Select
-                          options={MONTH_OPTIONS}
-                          placeholder="Choisissez un mois"
-                        />
+                        <Select options={MONTH_OPTIONS} placeholder="Choisissez un mois" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={12}>
-                      <Form.Item
-                        label="Jour du mois (optionnel)"
-                        name="day_of_month"
-                      >
-                        <InputNumber
-                          min={1}
-                          max={31}
-                          className="w-full"
-                          placeholder="Ex. : 15"
-                        />
+                      <Form.Item label="Jour du mois (optionnel)" name="day_of_month">
+                        <InputNumber min={1} max={31} className="w-full" placeholder="Ex. : 15" />
                       </Form.Item>
                     </Col>
                   </Row>
@@ -600,20 +554,12 @@ function CreateTaskTemplateModal({
               <Row gutter={16}>
                 <Col xs={24} sm={12}>
                   <Form.Item label="Date de début" name="start_date">
-                    <DatePicker
-                      format="DD.MM.YYYY"
-                      className="w-full"
-                      placeholder="JJ.MM.AAAA"
-                    />
+                    <DatePicker format="DD.MM.YYYY" className="w-full" placeholder="JJ.MM.AAAA" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12}>
                   <Form.Item label="Date de fin" name="end_date">
-                    <DatePicker
-                      format="DD.MM.YYYY"
-                      className="w-full"
-                      placeholder="JJ.MM.AAAA"
-                    />
+                    <DatePicker format="DD.MM.YYYY" className="w-full" placeholder="JJ.MM.AAAA" />
                   </Form.Item>
                 </Col>
               </Row>

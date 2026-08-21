@@ -1,16 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
-import { completeTaskOccurrence, getFilteredTaskOccurrences } from "../taskOccurrenceService.ts";
+import { useEffect, useState } from "react";
+import { completeTaskOccurrence, getTaskOccurrences } from "../taskOccurrenceService.ts";
 import type { TaskOccurrence } from "../types/taskOccurrence.ts";
-import { startOfDay } from "../utils/dates.ts";
+import { startOfDay, toISODate } from "../utils/dates.ts";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
-
-const toISODate = (date: Date): string => {
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-
-  return `${date.getFullYear()}-${month}-${day}`;
-};
 
 export interface DashboardStats {
   todayCount: number;
@@ -19,6 +12,44 @@ export interface DashboardStats {
   recentCompleted: TaskOccurrence[];
   nextTasks: TaskOccurrence[];
 }
+
+const fetchStats = async (): Promise<DashboardStats> => {
+  const today = startOfDay(new Date());
+  const yesterday = new Date(today.getTime() - DAY_IN_MS);
+  const tomorrow = new Date(today.getTime() + DAY_IN_MS);
+  const nextWeek = new Date(today.getTime() + 7 * DAY_IN_MS);
+
+  const [todayResult, lateResult, upcomingResult, completedResult, nextTasksResult] =
+    await Promise.all([
+      getTaskOccurrences({
+        status: "TODO",
+        from: toISODate(today),
+        to: toISODate(today),
+        limit: 1,
+      }),
+      getTaskOccurrences({ status: "TODO", to: toISODate(yesterday), limit: 1 }),
+      getTaskOccurrences({
+        status: "TODO",
+        from: toISODate(tomorrow),
+        to: toISODate(nextWeek),
+        limit: 1,
+      }),
+      getTaskOccurrences({ status: "COMPLETED", limit: 5 }),
+      getTaskOccurrences({
+        status: "TODO",
+        to: toISODate(nextWeek),
+        limit: 5,
+      }),
+    ]);
+
+  return {
+    todayCount: todayResult.count,
+    lateCount: lateResult.count,
+    upcomingCount: upcomingResult.count,
+    recentCompleted: completedResult.results,
+    nextTasks: nextTasksResult.results,
+  };
+};
 
 export const useDashboardStats = () => {
   const [stats, setStats] = useState<DashboardStats>({
@@ -30,70 +61,37 @@ export const useDashboardStats = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  const load = useCallback(async (showLoading: boolean) => {
-    if (showLoading) {
-      setLoading(true);
-    }
+  useEffect(() => {
+    let cancelled = false;
 
-    try {
-      const today = startOfDay(new Date());
-      const yesterday = new Date(today.getTime() - DAY_IN_MS);
-      const tomorrow = new Date(today.getTime() + DAY_IN_MS);
-      const nextWeek = new Date(today.getTime() + 7 * DAY_IN_MS);
-
-      const [todayResult, lateResult, upcomingResult, completedResult, nextTasksResult] =
-        await Promise.all([
-          getFilteredTaskOccurrences({
-            status: "TODO",
-            from: toISODate(today),
-            to: toISODate(today),
-          }),
-          getFilteredTaskOccurrences({ status: "TODO", to: toISODate(yesterday) }),
-          getFilteredTaskOccurrences({
-            status: "TODO",
-            from: toISODate(tomorrow),
-            to: toISODate(nextWeek),
-          }),
-          getFilteredTaskOccurrences({ status: "COMPLETED", limit: 5 }),
-          getFilteredTaskOccurrences({
-            status: "TODO",
-            to: toISODate(nextWeek),
-            limit: 5,
-          }),
-        ]);
-
-      setStats({
-        todayCount: todayResult.count,
-        lateCount: lateResult.count,
-        upcomingCount: upcomingResult.count,
-        recentCompleted: completedResult.results,
-        nextTasks: nextTasksResult.results,
+    fetchStats()
+      .then((nextStats) => {
+        if (!cancelled) {
+          setStats(nextStats);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
       });
-    } finally {
-      if (showLoading) {
-        setLoading(false);
-      }
-    }
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const refresh = useCallback(() => load(true), [load]);
+  const refresh = async () => {
+    setStats(await fetchStats());
+  };
 
-  const reload = useCallback(() => load(false), [load]);
+  const complete = async (id: number): Promise<TaskOccurrence> => {
+    const occurrence = await completeTaskOccurrence(id);
 
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
+    await refresh();
 
-  const complete = useCallback(
-    async (id: number): Promise<TaskOccurrence> => {
-      const occurrence = await completeTaskOccurrence(id);
+    return occurrence;
+  };
 
-      await load(false);
-
-      return occurrence;
-    },
-    [load],
-  );
-
-  return { stats, loading, complete, refresh, reload };
+  return { stats, loading, complete };
 };

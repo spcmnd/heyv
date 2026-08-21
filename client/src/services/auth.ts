@@ -1,26 +1,16 @@
-export interface TokenCredentials {
-  access?: string;
-  refresh?: string;
-}
+import { API_URL } from "./config.ts";
 
 const ACCESS_TOKEN_KEY = "heyv_access";
 const REFRESH_TOKEN_KEY = "heyv_refresh";
 
+export interface TokenCredentials {
+  access?: string | null;
+  refresh?: string | null;
+}
+
 class AuthService {
-  private baseUrl: string;
-
-  constructor() {
-    const apiUrl = import.meta.env.VITE_API_URL;
-
-    if (!apiUrl) {
-      throw new Error("API URL not provided.");
-    }
-
-    this.baseUrl = apiUrl;
-  }
-
-  public async login(username: string, password: string) {
-    const response = await fetch(`${this.baseUrl}/auth/login/`, {
+  public async login(username: string, password: string): Promise<void> {
+    const response = await fetch(`${API_URL}/auth/login/`, {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: {
@@ -34,12 +24,10 @@ class AuthService {
 
     const { access, refresh } = await response.json();
     this.saveTokens(access, refresh);
-
-    return;
   }
 
-  public async refresh(refreshToken: string) {
-    const response = await fetch(`${this.baseUrl}/auth/refresh/`, {
+  public async refresh(refreshToken: string): Promise<void> {
+    const response = await fetch(`${API_URL}/auth/refresh/`, {
       method: "POST",
       body: JSON.stringify({ refresh: refreshToken }),
       headers: {
@@ -48,29 +36,29 @@ class AuthService {
     });
 
     if (!response.ok) {
-      this.clearTokens();
       throw new Error("Session expired.");
     }
 
     const { access, refresh } = await response.json();
-    this.saveTokens(access, refresh);
 
-    return;
+    if (access && refresh) {
+      this.saveTokens(access, refresh);
+    }
   }
 
-  public clearTokens() {
+  public clearTokens(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   }
 
-  public getTokensFromStorage() {
+  public getTokensFromStorage(): TokenCredentials {
     return {
       access: localStorage.getItem(ACCESS_TOKEN_KEY),
       refresh: localStorage.getItem(REFRESH_TOKEN_KEY),
     };
   }
 
-  private saveTokens(access: string, refresh: string) {
+  private saveTokens(access: string, refresh: string): void {
     localStorage.setItem(ACCESS_TOKEN_KEY, access);
     localStorage.setItem(REFRESH_TOKEN_KEY, refresh);
   }

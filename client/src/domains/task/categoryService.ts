@@ -9,16 +9,7 @@ export interface Category {
 }
 
 export const getCategories = async (): Promise<Category[]> => {
-  const response = await httpService.request({
-    url: "/categories/?limit=100",
-    method: "GET",
-  });
-
-  if (!response.ok) {
-    throw new Error("Categories cannot be retrieved.");
-  }
-
-  const data: PaginatedResponse<Category> = await response.json();
+  const data = await httpService.get<PaginatedResponse<Category>>("/categories/?limit=100");
 
   return data.results;
 };

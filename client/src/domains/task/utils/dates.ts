@@ -10,6 +10,13 @@ export const formatDate = (date: Date): string => {
   return `${day}.${month}.${date.getFullYear()}`;
 };
 
+export const toISODate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+
+  return `${date.getFullYear()}-${month}-${day}`;
+};
+
 export const getDaysDiff = (date: Date): number => {
   return Math.round((startOfDay(date).getTime() - startOfDay(new Date()).getTime()) / DAY_IN_MS);
 };

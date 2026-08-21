@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { completeTaskOccurrence, getTaskOccurrences } from "../taskOccurrenceService.ts";
 import { archiveTaskTemplate } from "../taskTemplateService.ts";
 import type { TaskOccurrence } from "../types/taskOccurrence.ts";
@@ -7,49 +7,48 @@ export const useTaskOccurrences = () => {
   const [todos, setTodos] = useState<TaskOccurrence[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const load = useCallback(async (showLoading: boolean) => {
-    if (showLoading) {
-      setLoading(true);
-    }
+  useEffect(() => {
+    let cancelled = false;
 
-    try {
-      const todoOccurrences = await getTaskOccurrences("TODO");
+    const load = async () => {
+      try {
+        const data = await getTaskOccurrences({ status: "TODO", limit: 100 });
 
-      setTodos(todoOccurrences);
-    } finally {
-      if (showLoading) {
-        setLoading(false);
+        if (!cancelled) {
+          setTodos(data.results);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
-    }
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const refresh = useCallback(() => load(true), [load]);
+  const refresh = async () => {
+    const data = await getTaskOccurrences({ status: "TODO", limit: 100 });
+    setTodos(data.results);
+  };
 
-  const reload = useCallback(() => load(false), [load]);
+  const complete = async (id: number): Promise<TaskOccurrence> => {
+    const occurrence = await completeTaskOccurrence(id);
 
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
+    await refresh();
 
-  const complete = useCallback(
-    async (id: number): Promise<TaskOccurrence> => {
-      const occurrence = await completeTaskOccurrence(id);
+    return occurrence;
+  };
 
-      await load(false);
+  const remove = async (taskId: number): Promise<void> => {
+    await archiveTaskTemplate(taskId);
 
-      return occurrence;
-    },
-    [load],
-  );
+    await refresh();
+  };
 
-  const remove = useCallback(
-    async (taskId: number): Promise<void> => {
-      await archiveTaskTemplate(taskId);
-
-      await load(false);
-    },
-    [load],
-  );
-
-  return { todos, loading, complete, remove, refresh, reload };
+  return { todos, loading, complete, remove, refresh };
 };

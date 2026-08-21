@@ -1,25 +1,8 @@
 import httpService from "../../services/api.ts";
-import type { PaginatedResponse } from "../../services/types.ts";
 import type { TaskOccurrence, TaskOccurrenceStatus } from "./types/taskOccurrence.ts";
+import type { PaginatedResponse } from "../../services/types.ts";
 
 const url = "/task-occurrences";
-
-export const getTaskOccurrences = async (
-  status: TaskOccurrenceStatus,
-): Promise<TaskOccurrence[]> => {
-  const response = await httpService.request({
-    url: `${url}/?status=${status}&limit=100`,
-    method: "GET",
-  });
-
-  if (!response.ok) {
-    throw new Error("Tasks cannot be retrieved.");
-  }
-
-  const data: PaginatedResponse<TaskOccurrence> = await response.json();
-
-  return data.results;
-};
 
 export interface TaskOccurrenceFilters {
   status?: TaskOccurrenceStatus;
@@ -28,7 +11,7 @@ export interface TaskOccurrenceFilters {
   limit?: number;
 }
 
-export const getFilteredTaskOccurrences = async (
+export const getTaskOccurrences = async (
   filters: TaskOccurrenceFilters = {},
 ): Promise<PaginatedResponse<TaskOccurrence>> => {
   const params = new URLSearchParams();
@@ -49,27 +32,9 @@ export const getFilteredTaskOccurrences = async (
     params.set("limit", String(filters.limit));
   }
 
-  const response = await httpService.request({
-    url: `${url}/?${params.toString()}`,
-    method: "GET",
-  });
-
-  if (!response.ok) {
-    throw new Error("Tasks cannot be retrieved.");
-  }
-
-  return response.json();
+  return httpService.get<PaginatedResponse<TaskOccurrence>>(`${url}/?${params.toString()}`);
 };
 
 export const completeTaskOccurrence = async (id: number): Promise<TaskOccurrence> => {
-  const response = await httpService.request({
-    url: `${url}/${id}/complete/`,
-    method: "POST",
-  });
-
-  if (!response.ok) {
-    throw new Error("Task cannot be completed.");
-  }
-
-  return response.json();
+  return httpService.post<undefined, TaskOccurrence>(`${url}/${id}/complete/`);
 };
