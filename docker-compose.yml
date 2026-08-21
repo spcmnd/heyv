@@ -1,7 +1,14 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   postgres:
     image: postgres:16-alpine
     restart: unless-stopped
+    logging: *default-logging
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -18,9 +25,16 @@ services:
     build:
       context: ./server
     restart: unless-stopped
+    logging: *default-logging
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import socket; socket.create_connection(('127.0.0.1', 8000), 5).close()\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     environment:
       DJANGO_SETTINGS_MODULE: heyv.settings.production
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
@@ -32,16 +46,19 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
+      GUNICORN_WORKERS: ${GUNICORN_WORKERS:-2}
 
   nginx:
     build:
       context: .
       dockerfile: nginx/Dockerfile
     restart: unless-stopped
+    logging: *default-logging
     ports:
-      - "80:80"
+      - "${APP_PORT:-80}:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 
 volumes:
   postgres_data:

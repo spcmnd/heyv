@@ -21,4 +21,4 @@ USER django
 
 EXPOSE 8000
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["gunicorn", "heyv.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4"]
+CMD ["sh", "-c", "gunicorn heyv.wsgi:application --bind 0.0.0.0:8000 --workers ${GUNICORN_WORKERS:-2} --max-requests 500 --max-requests-jitter 50"]
