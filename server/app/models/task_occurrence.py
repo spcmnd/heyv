@@ -57,5 +57,14 @@ class TaskOccurrence(models.Model):
             models.Index(fields=["status", "scheduled_for"]),
         ]
 
+        constraints = [
+            # Only one pending occurrence per task template, enforced at the database level.
+            models.UniqueConstraint(
+                fields=["task_template"],
+                condition=models.Q(status="TODO"),
+                name="unique_todo_occurrence_per_template",
+            ),
+        ]
+
     def __str__(self):
         return f"{self.task_template.title} - {self.scheduled_for}"
