@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Badge, Button } from "antd";
-import { useAuth } from "../providers/AuthProvider";
-import { Notification, Plus } from "@hugeicons/core-free-icons";
+import { Button } from "antd";
+import { useAuth } from "../providers/authContext.ts";
+import { Plus } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import CreateTaskTemplateModal from "../domains/task/components/CreateTaskTemplateModal.tsx";
 import DashboardStats from "../domains/task/components/DashboardStats.tsx";
@@ -26,15 +26,6 @@ function Dashboard() {
           >
             Ajouter
           </Button>
-
-          <Button
-            type="text"
-            icon={
-              <Badge count={2}>
-                <HugeiconsIcon icon={Notification} size={24} />
-              </Badge>
-            }
-          ></Button>
         </div>
       </header>
 

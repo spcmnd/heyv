@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Input, App } from "antd";
 import { useNavigate } from "react-router";
-import { useAuth } from "../providers/AuthProvider";
+import { useAuth } from "../providers/authContext.ts";
 import heyvLogo from "../assets/heyv-logo.png";
 
 interface LoginFormValues {
@@ -13,15 +13,14 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const { message } = App.useApp();
   const navigate = useNavigate();
-  const { login, getCurrentUser } = useAuth();
+  const { login } = useAuth();
 
   const handleFinish = async (values: LoginFormValues) => {
     setLoading(true);
 
     try {
       await login(values.username, values.password);
-      await getCurrentUser();
-      navigate("/");
+      navigate("/", { replace: true });
     } catch {
       message.error("Nom d'utilisateur ou mot de passe invalide.");
     } finally {
@@ -31,7 +30,7 @@ function Login() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6">
-      <img src={heyvLogo} className="mb-8 h-12" />
+      <img src={heyvLogo} alt="Heyv" className="mb-8 h-12" />
       <Form<LoginFormValues>
         name="login"
         layout="vertical"

@@ -1,12 +1,11 @@
-import "./App.scss";
-
-import { Spin } from "antd";
+import { App as AntdApp, ConfigProvider } from "antd";
+import { AuthProvider } from "./providers/AuthProvider";
+import { useAuth } from "./providers/authContext.ts";
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
 import Sidebar from "./components/layout/Sidebar";
 import BottomNav from "./components/layout/BottomNav";
 import RequireAuth from "./components/layout/RequireAuth";
-import { App as AntdApp, ConfigProvider } from "antd";
-import { AuthProvider, useAuth } from "./providers/AuthProvider";
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
+import FullPageSpinner from "./components/FullPageSpinner.tsx";
 import Dashboard from "./pages/Dashboard";
 import Tasks from "./domains/task/pages/Tasks";
 import Login from "./pages/Login";
@@ -27,11 +26,7 @@ function LoginRoute() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spin size="large" />
-      </div>
-    );
+    return <FullPageSpinner />;
   }
 
   if (user) {

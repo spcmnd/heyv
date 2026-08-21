@@ -2,14 +2,14 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Logout01Icon, UserIcon } from "@hugeicons/core-free-icons";
 import { Dropdown } from "antd";
 import { NavLink } from "react-router";
-import { useAuth } from "../../providers/AuthProvider";
+import { useAuth } from "../../providers/authContext.ts";
 import { navItems } from "./navigationItems.ts";
 
 function BottomNav() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-10 md:hidden bg-surface border-t border-border px-6 pt-2 pb-4">
+    <nav className="fixed bottom-0 inset-x-0 z-10 md:hidden bg-surface border-t border-line px-6 pt-2 pb-4">
       <div className="flex items-center justify-between">
         {navItems.map(({ label, icon: Icon, to }) => (
           <NavLink to={to} key={label} className="flex-1">
@@ -48,6 +48,7 @@ function BottomNav() {
                 danger: true,
                 icon: <HugeiconsIcon icon={Logout01Icon} size={16} />,
                 label: "Se déconnecter",
+                onClick: logout,
               },
             ],
           }}

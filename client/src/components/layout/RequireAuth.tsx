@@ -1,16 +1,12 @@
-import { Spin } from "antd";
 import { Navigate, Outlet } from "react-router";
-import { useAuth } from "../../providers/AuthProvider";
+import { useAuth } from "../../providers/authContext.ts";
+import FullPageSpinner from "../FullPageSpinner.tsx";
 
 function RequireAuth() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spin size="large" />
-      </div>
-    );
+    return <FullPageSpinner />;
   }
 
   if (!user) {
